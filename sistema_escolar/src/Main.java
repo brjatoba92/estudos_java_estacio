@@ -1,53 +1,40 @@
 import models.*;
+import util.JsonUtil;
+
 import java.time.LocalDate;
 
 public class Main {
     public static void main(String[] args) {
-        // Criando professores
+        Escola escola = new Escola("Colégio Java", "12.345.678/0001-90");
+
         Professor prof = new Professor("João Silva", "Matemática");
+        escola.adicionarProfessor(prof);
 
-        // Criando turmas
-        Turma turma = new Turma("1A", "1º Ano", prof);
+        Turma turma = new Turma("1A", "1º Ano", null); // Evita referência cíclica
+        escola.adicionarTurma(turma);
 
-        // Criando alunos
-        Aluno aluno1 = new Aluno("Maria Souza", "A001", "2024-06-01");
-        Aluno aluno2 = new Aluno("Carlos Silva", "A002", "2024-08-15");
+        Aluno aluno1 = new Aluno("Maria Souza", "A001", "2008-06-01");
+        Aluno aluno2 = new Aluno("Carlos Silva", "A002", "2009-08-15");
 
-        // Criando disciplinas
-        Disciplina matematica = new Disciplina("Matemática", 60);
-        Disciplina fisica = new Disciplina("Física", 45);
+        escola.adicionarAluno(aluno1);
+        escola.adicionarAluno(aluno2);
 
-        // Criando prova
-        Prova prova1 = new Prova("Prova Bimestral", matematica, LocalDate.of(2025, 8, 15), 2.0);
-
-        // Criar uma nota e adicionar ao aluno
-        Nota nota1 = new Nota(8.5, prova1);
-        Nota nota2 = new Nota(7.0, prova1);
-
-        aluno1.adicionarNota(nota1);
-
-        // Criando escola
-        Escola escola = new Escola("Universidade Java", "12.368.771/0001-00");
-
-        // Vincular alunos à turma
         turma.adicionarAluno(aluno1);
         turma.adicionarAluno(aluno2);
 
-        // Adicionar alunos, professores e turma na escola
-        escola.adicionarProfessor(prof);
-        escola.adicionarAluno(aluno1);
-        escola.adicionarAluno(aluno2);
-        escola.adicionarTurma(turma);
-        
-        // Listar alunos da turma
-        turma.listarAlunos();
+        Disciplina matematica = new Disciplina("Matemática", 60);
+        Prova prova1 = new Prova("Prova Bimestral", matematica, LocalDate.of(2025, 8, 15), 2.0);
 
-        // Mostra notas e media
-        aluno1.exibirBoletim();
-        
-        // Listar professores, turmas e alunos
-        escola.listarProfessores();
-        escola.listarTurmas();
-        escola.listarAlunos();
+        aluno1.adicionarNota(new Nota(8.5, prova1));
+        aluno2.adicionarNota(new Nota(6.0, prova1));
+
+        // Salvar dados
+        JsonUtil.salvar(escola, "escola.json");
+
+        // Carregar e exibir
+        Escola escolaCarregada = JsonUtil.carregar("escola.json", Escola.class);
+        if (escolaCarregada != null) {
+            escolaCarregada.listarAlunos();
+        }
     }
 }

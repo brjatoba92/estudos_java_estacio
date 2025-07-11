@@ -1,0 +1,97 @@
+{
+  "nome": "Colégio Java",
+  "cnpj": "12.345.678/0001-90",
+  "turmas": [
+    {
+      "codigo": "1A",
+      "serie": "1º Ano",
+      "alunos": [
+        {
+          "nome": "Maria Souza",
+          "matricula": "A001",
+          "dataNascimento": "2008-06-01",
+          "notas": [
+            {
+              "valor": 8.5,
+              "prova": {
+                "descricao": "Prova Bimestral",
+                "disciplina": {
+                  "nome": "Matemática",
+                  "cargaHoraria": 60
+                },
+                "data": "2025-08-15",
+                "peso": 2.0
+              }
+            }
+          ]
+        },
+        {
+          "nome": "Carlos Silva",
+          "matricula": "A002",
+          "dataNascimento": "2009-08-15",
+          "notas": [
+            {
+              "valor": 6.0,
+              "prova": {
+                "descricao": "Prova Bimestral",
+                "disciplina": {
+                  "nome": "Matemática",
+                  "cargaHoraria": 60
+                },
+                "data": "2025-08-15",
+                "peso": 2.0
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "professores": [
+    {
+      "nome": "João Silva",
+      "disciplina": "Matemática",
+      "turmas": []
+    }
+  ],
+  "alunos": [
+    {
+      "nome": "Maria Souza",
+      "matricula": "A001",
+      "dataNascimento": "2008-06-01",
+      "notas": [
+        {
+          "valor": 8.5,
+          "prova": {
+            "descricao": "Prova Bimestral",
+            "disciplina": {
+              "nome": "Matemática",
+              "cargaHoraria": 60
+            },
+            "data": "2025-08-15",
+            "peso": 2.0
+          }
+        }
+      ]
+    },
+    {
+      "nome": "Carlos Silva",
+      "matricula": "A002",
+      "dataNascimento": "2009-08-15",
+      "notas": [
+        {
+          "valor": 6.0,
+          "prova": {
+            "descricao": "Prova Bimestral",
+            "disciplina": {
+              "nome": "Matemática",
+              "cargaHoraria": 60
+            },
+            "data": "2025-08-15",
+            "peso": 2.0
+          }
+        }
+      ]
+    }
+  ]
+}

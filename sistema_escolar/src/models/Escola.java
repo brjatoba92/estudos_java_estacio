@@ -19,28 +19,6 @@ public class Escola {
         this.alunos = new ArrayList<>();
     }
 
-    // Getters
-    public String getNome() {
-        return nome;
-    }
-
-    public String getCnpj() {
-        return cnpj;
-    }
-
-    public List<Turma> getTurmas() {
-        return turmas;
-    }
-
-    public List<Professor> getProfessores() {
-        return professores;
-    }
-
-    public List<Aluno> getAlunos() {
-        return alunos;
-    }
-
-    // Metodos de cadastro
     public void adicionarTurma(Turma turma) {
         turmas.add(turma);
     }
@@ -54,23 +32,23 @@ public class Escola {
     }
 
     public void listarTurmas() {
-        System.out.println("Turmas da Escola" + nome + ":");
+        System.out.println("Turmas:");
         for (Turma turma : turmas) {
             System.out.println("- " + turma.getCodigo() + " (" + turma.getSerie() + ")");
         }
     }
 
     public void listarProfessores() {
-        System.out.println("Professores da Escola" + nome + ":");
-        for (Professor professor : professores) {
-            System.out.println("- " + professor.getNome() + " (" + professor.getDisciplina() + ")");
+        System.out.println("Professores:");
+        for (Professor prof : professores) {
+            System.out.println("- " + prof.getNome() + " | " + prof.getDisciplina());
         }
     }
 
     public void listarAlunos() {
-        System.out.println("Alunos da Escola" + nome + ":");
+        System.out.println("Alunos:");
         for (Aluno aluno : alunos) {
-            System.out.println("- " + aluno.getNome() + " (Matrícula: " + aluno.getMatricula() + ")");
+            System.out.println("- " + aluno.getNome() + " | Matrícula: " + aluno.getMatricula());
         }
     }
 
