@@ -2,15 +2,19 @@ import models.*;
 
 public class Main {
     public static void main(String[] args) {
+        // Criando professores
         Professor prof = new Professor("João Silva", "Matematica");
+        // Criando turmas
         Turma turma1 = new Turma("1A", "1° Ano", prof);
         Turma turma2 = new Turma("2B", "2° Ano", prof);
-
+        // Criando alunos
         Aluno aluno1 - new Aluno("Maria Souza", "A001", "2024-06-01");
         Aluno aluno2 - new Aluno("Carlos Silva", "A002", "2024-08-15");
-
+        // Criando disciplinas
         Disciplina matematica = new Disciplina("Matematica", 60);
         Disciplina fisica = new Disciplina("Fisica", 40);
+        // Criando prova - Nome, Data, Disciplina, Peso
+        Prova prova1 = new Prova("Prova Bimestral", LocalDate.of(2023, 6, 1), matematica, 2.0);
 
         // Vincular alunos a turmas
         turma.adcionarAluno(aluno1);
@@ -27,5 +31,8 @@ public class Main {
         // Exibir informações das disciplinas
         matematica.exibirInfo();
         fisica.exibirInfo();
+
+        // Exibir os detalhes da prova
+        prova1.exibirInfo();
     }
 }
