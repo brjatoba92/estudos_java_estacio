@@ -22,16 +22,32 @@ public class Main {
 
         // Criar uma nota e adicionar ao aluno
         Nota nota1 = new Nota(8.5, prova1);
+        Nota nota2 = new Nota(7.0, prova1);
+
         aluno1.adicionarNota(nota1);
+
+        // Criando escola
+        Escola escola = new Escola("Universidade Java", "12.368.771/0001-00");
 
         // Vincular alunos à turma
         turma.adicionarAluno(aluno1);
         turma.adicionarAluno(aluno2);
+
+        // Adicionar alunos, professores e turma na escola
+        escola.adicionarProfessor(prof);
+        escola.adicionarAluno(aluno1);
+        escola.adicionarAluno(aluno2);
+        escola.adicionarTurma(turma);
         
         // Listar alunos da turma
         turma.listarAlunos();
 
         // Mostra notas e media
         aluno1.exibirBoletim();
+        
+        // Listar professores, turmas e alunos
+        escola.listarProfessores();
+        escola.listarTurmas();
+        escola.listarAlunos();
     }
 }
