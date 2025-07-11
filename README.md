@@ -16,6 +16,7 @@ Este é um projeto educacional de um **Sistema Escolar**, desenvolvido com o obj
 
 ## 🏗️ Estrutura do projeto
 
+```
 sistema_escolar/
 ├── bin/
 │ ├── models/  (Aluno.class, Disciplina.class, ...)
@@ -30,7 +31,7 @@ sistema_escolar/
 │ │ └── Nota.java
 │ └── main.java
 ├── compile.sh (executar os comandos)
-
+```
 
 ---
 
