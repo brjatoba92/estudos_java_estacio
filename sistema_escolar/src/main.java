@@ -9,6 +9,9 @@ public class Main {
         Aluno aluno1 - new Aluno("Maria Souza", "A001", "2024-06-01");
         Aluno aluno2 - new Aluno("Carlos Silva", "A002", "2024-08-15");
 
+        Disciplina matematica = new Disciplina("Matematica", 60);
+        Disciplina fisica = new Disciplina("Fisica", 40);
+
         // Vincular alunos a turmas
         turma.adcionarAluno(aluno1);
         turma.adcionarAluno(aluno2);
@@ -20,5 +23,9 @@ public class Main {
         prof.adcionarTurma(turma2);
 
         prof.listarTurmas();
+
+        // Exibir informações das disciplinas
+        matematica.exibirInfo();
+        fisica.exibirInfo();
     }
 }
