@@ -4,39 +4,37 @@ import java.time.LocalDate;
 
 public class Prova {
     private String descricao;
-    private LocalDate data;
     private Disciplina disciplina;
-    private double peso; // Ex: 2, 1.5
+    private LocalDate data;
+    private double peso;
 
-    // Construtor
-    public Prova(String descricao, LocalDate data, Disciplina disciplina, double peso) {
+    public Prova(String descricao, Disciplina disciplina, LocalDate data, double peso) {
         this.descricao = descricao;
-        this.data = data;
         this.disciplina = disciplina;
+        this.data = data;
         this.peso = peso;
     }
 
-    publiic Disciplina getDescricao() {
+    public String getDescricao() {
         return descricao;
-    }
-
-    public LocalDate getData() {
-        return data;
     }
 
     public Disciplina getDisciplina() {
         return disciplina;
     }
 
+    public LocalDate getData() {
+        return data;
+    }
+
     public double getPeso() {
         return peso;
     }
 
-    // Método auxiliar
-    public void exibirInfo() {
+    public void exibirDetalhes() {
         System.out.println("Prova: " + descricao);
-        System.out.println("Data: " + data);
         System.out.println("Disciplina: " + disciplina.getNome());
+        System.out.println("Data: " + data);
         System.out.println("Peso: " + peso);
     }
 
