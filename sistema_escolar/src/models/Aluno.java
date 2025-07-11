@@ -7,7 +7,7 @@ public class Aluno {
     private String nome;
     private String matricula;
     private String dataNascimento;
-    private Turma turma;
+    private transient Turma turma;
     private List<Nota> notas;
 
     public Aluno(String nome, String matricula, String dataNascimento) {
