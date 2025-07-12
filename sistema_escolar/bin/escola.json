@@ -14,13 +14,25 @@
             {
               "valor": 8.5,
               "prova": {
-                "descricao": "Prova Bimestral",
+                "descricao": "Prova Semestral 1",
                 "disciplina": {
                   "nome": "Matemática",
                   "cargaHoraria": 60
                 },
                 "data": "2025-08-15",
                 "peso": 2.0
+              }
+            },
+            {
+              "valor": 7.0,
+              "prova": {
+                "descricao": "Prova Semestral 2",
+                "disciplina": {
+                  "nome": "Matemática",
+                  "cargaHoraria": 60
+                },
+                "data": "2025-12-15",
+                "peso": 3.0
               }
             }
           ]
@@ -33,13 +45,25 @@
             {
               "valor": 6.0,
               "prova": {
-                "descricao": "Prova Bimestral",
+                "descricao": "Prova Semestral 1",
                 "disciplina": {
                   "nome": "Matemática",
                   "cargaHoraria": 60
                 },
                 "data": "2025-08-15",
                 "peso": 2.0
+              }
+            },
+            {
+              "valor": 8.0,
+              "prova": {
+                "descricao": "Prova Semestral 2",
+                "disciplina": {
+                  "nome": "Matemática",
+                  "cargaHoraria": 60
+                },
+                "data": "2025-12-15",
+                "peso": 3.0
               }
             }
           ]
@@ -63,13 +87,25 @@
         {
           "valor": 8.5,
           "prova": {
-            "descricao": "Prova Bimestral",
+            "descricao": "Prova Semestral 1",
             "disciplina": {
               "nome": "Matemática",
               "cargaHoraria": 60
             },
             "data": "2025-08-15",
             "peso": 2.0
+          }
+        },
+        {
+          "valor": 7.0,
+          "prova": {
+            "descricao": "Prova Semestral 2",
+            "disciplina": {
+              "nome": "Matemática",
+              "cargaHoraria": 60
+            },
+            "data": "2025-12-15",
+            "peso": 3.0
           }
         }
       ]
@@ -82,13 +118,25 @@
         {
           "valor": 6.0,
           "prova": {
-            "descricao": "Prova Bimestral",
+            "descricao": "Prova Semestral 1",
             "disciplina": {
               "nome": "Matemática",
               "cargaHoraria": 60
             },
             "data": "2025-08-15",
             "peso": 2.0
+          }
+        },
+        {
+          "valor": 8.0,
+          "prova": {
+            "descricao": "Prova Semestral 2",
+            "disciplina": {
+              "nome": "Matemática",
+              "cargaHoraria": 60
+            },
+            "data": "2025-12-15",
+            "peso": 3.0
           }
         }
       ]
