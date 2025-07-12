@@ -41,6 +41,14 @@ public class Aluno {
         return notas;
     }
 
+    public void setNome(String nome) {
+    this.nome = nome;
+}
+
+    public void setDataNascimento(String dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
     public void adicionarNota(Nota nota) {
         this.notas.add(nota);
     }

@@ -1,5 +1,6 @@
 import models.*;
 import util.JsonUtil;
+import services.AlunoService;
 
 import java.time.LocalDate;
 
@@ -23,16 +24,23 @@ public class Main {
         turma.adicionarAluno(aluno2);
 
         Disciplina matematica = new Disciplina("Matemática", 60);
-        Prova prova1 = new Prova("Prova Bimestral", matematica, LocalDate.of(2025, 8, 15), 2.0);
+        Prova prova1 = new Prova("Prova Semestral 1", matematica, LocalDate.of(2025, 8, 15), 2.0);
+        Prova prova2 = new Prova("Prova Semestral 2", matematica, LocalDate.of(2025, 12, 15), 3.0);
+
+        AlunoService alunoService = new AlunoService();
 
         aluno1.adicionarNota(new Nota(8.5, prova1));
+        aluno1.adicionarNota(new Nota(7.0, prova2));
         aluno2.adicionarNota(new Nota(6.0, prova1));
+        aluno2.adicionarNota(new Nota(8.0, prova2));
+
+        alunoService.menuInterativo();
 
         // Salvar dados
         JsonUtil.salvar(escola, "escola.json");
 
         // Carregar e exibir
-        Escola escolaCarregada = JsonUtil.carregar("escola.json", Escola.class);
+        Escola escolaCarregada = JsonUtil.carregarLista("escola.json", Escola.class);
         if (escolaCarregada != null) {
             escolaCarregada.listarAlunos();
         }
