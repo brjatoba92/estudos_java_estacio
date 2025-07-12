@@ -6,11 +6,13 @@ import java.util.List;
 public class Professor {
     private String nome;
     private String disciplina;
+    private String matricula;
     private List<Turma> turmas;
 
-    public Professor(String nome, String disciplina) {
+    public Professor(String nome, String disciplina, String matricula) {
         this.nome = nome;
         this.disciplina = disciplina;
+        this.matricula = matricula;
         this.turmas = new ArrayList<>();
     }
 
@@ -24,6 +26,18 @@ public class Professor {
 
     public List<Turma> getTurmas() {
         return turmas;
+    }
+
+    public String getMatricula() {
+        return this.matricula;
+    }
+
+    public void setDisciplina(String disciplina) {
+        this.disciplina = disciplina;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public void adicionarTurma(Turma turma) {
