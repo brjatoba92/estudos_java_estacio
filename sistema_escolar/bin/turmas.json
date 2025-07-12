@@ -1,0 +1,13 @@
+[
+  {
+    "codigo": "MET01A",
+    "serie": "1",
+    "professorResponsavel": {
+      "nome": "Bruno Jatobá",
+      "disciplina": "Calculo 2",
+      "matricula": "0001",
+      "turmas": []
+    },
+    "alunos": []
+  }
+]

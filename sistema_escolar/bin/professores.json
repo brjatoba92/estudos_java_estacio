@@ -1,8 +1,20 @@
 [
   {
-    "nome": "Biu",
-    "disciplina": "Matematica",
+    "nome": "Bruno Jatobá",
+    "disciplina": "Calculo 2",
     "matricula": "0001",
+    "turmas": []
+  },
+  {
+    "nome": "Rodrigo Lins",
+    "disciplina": "Climatologia",
+    "matricula": "0002",
+    "turmas": []
+  },
+  {
+    "nome": "Marcelo Lopes Jr",
+    "disciplina": "Agrometeorologia",
+    "matricula": "0003",
     "turmas": []
   }
 ]

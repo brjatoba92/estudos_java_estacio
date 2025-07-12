@@ -37,25 +37,25 @@ public class ProfessorService {
     }
 
     public void atualizar(String matricula, String novoNome, String novaDisciplina) {
-        Professor prof = buscarPorMatricula(matricula);
-        if(prof != null) {
-            prof.setNome(novoNome);
-            prof.setDisciplina(novaDisciplina);
+        Professor professor = buscarPorMatricula(matricula);
+        if (professor != null) {
+            professor.setNome(novoNome);
+            professor.setDisciplina(novaDisciplina);
             salvar();
             System.out.println("\u2705 Professor atualizado com sucesso!");
         } else {
-            System.out.println("\u26A0 Professor nao encontrado!");
+            System.out.println("\u26A0 Professor não encontrado!");
         }
     }
 
     public void remover(String matricula) {
-        Professor prof = buscarPorMatricula(matricula);
-        if(prof != null) {
-            professores.remove(prof);
+        Professor professor = buscarPorMatricula(matricula);
+        if (professor != null) {
+            professores.remove(professor);
             salvar();
             System.out.println("\u2705 Professor removido com sucesso!");
         } else {
-            System.out.println("\u26A0 Professor nao encontrado!");
+            System.out.println("\u26A0 Professor não encontrado!");
         }
     }
 
@@ -66,7 +66,7 @@ public class ProfessorService {
     private void carregar() {
         File file = new File(ARQUIVO);
         if (file.exists()) {
-            professores = JsonUtil.carregarLista(ARQUIVO, ArrayList.class);
+            professores = JsonUtil.carregarLista(ARQUIVO, new TypeToken<List<Professor>>() {}.getType());
         } else {
             professores = new ArrayList<>();
         }
@@ -77,66 +77,57 @@ public class ProfessorService {
         int opcao;
         do {
             System.out.println("\n==== MENU PROFESSOR ====");
-            System.out.println("1 - Cadastrar Professor");
-            System.out.println("2 - Listar Professores");
-            System.out.println("3 - Buscar por matrícula");
+            System.out.println("1 - Cadastrar professor");
+            System.out.println("2 - Listar professores");
+            System.out.println("3 - Buscar professor por matrícula");
             System.out.println("4 - Atualizar professor");
             System.out.println("5 - Remover professor");
-            System.out.println("0 - Voltar ao menu principal");
+            System.out.println("0 - Voltar");
             System.out.print("Escolha uma opção: ");
-            opcao = scanner.nextInt();
-            scanner.nextLine(); // consumir quebra de linha pendente
+            opcao = Integer.parseInt(scanner.nextLine());
 
             switch (opcao) {
-                case 1:
+                case 1 :
                     System.out.print("Nome: ");
                     String nome = scanner.nextLine();
+                    System.out.print("Matrícula: ");
+                    String matricula = scanner.nextLine();
                     System.out.print("Disciplina: ");
                     String disciplina = scanner.nextLine();
-                    System.out.print("Matricula: ");
-                    String matricula = scanner.nextLine();
-                    cadastrar(new Professor(nome, disciplina, matricula));
+                    cadastrar(new Professor(nome, matricula, disciplina));
                     break;
-
-                case 2:
-                    for (Professor p : listarTodos()) {
-                        System.out.println(p.getMatricula() + " | " + p.getNome() + " | " + p.getDisciplina());
-                    }
+                
+                case 2 : listarTodos().forEach(p ->
+                        System.out.println(p.getMatricula() + " | " + p.getNome() + " | " + p.getDisciplina()));
                     break;
-
-                case 3:
+                case 3 :
                     System.out.print("Matrícula: ");
                     String matBusca = scanner.nextLine();
                     Professor p = buscarPorMatricula(matBusca);
                     if (p != null) {
                         System.out.println("Nome: " + p.getNome() + ", Disciplina: " + p.getDisciplina());
                     } else {
-                        System.out.println("Professor não encontrado.");
+                        System.out.println("\u26A0 Professor não encontrado!");
                     }
                     break;
-
-                case 4:
+                
+                case 4 :
                     System.out.print("Matrícula: ");
                     String matAtualiza = scanner.nextLine();
                     System.out.print("Novo nome: ");
-                    String nomeAtualiza = scanner.nextLine();
+                    String novoNome = scanner.nextLine();
                     System.out.print("Nova disciplina: ");
-                    String disciplinaAtualiza = scanner.nextLine();
-                    atualizar(matAtualiza, nomeAtualiza, disciplinaAtualiza);
+                    String disc = scanner.nextLine();
+                    atualizar(matAtualiza, novoNome, disc);
                     break;
-
-                case 5:
+                case 5 :
                     System.out.print("Matrícula: ");
                     String matRemove = scanner.nextLine();
                     remover(matRemove);
                     break;
-
-                case 0:
-                    System.out.println("Encerrando...");
-                    break;
-
-                default:
-                    System.out.println("Opção inválida!");
+                
+                case 0 : System.out.println("Retornando...");
+                default : System.out.println("Opção inválida!");
             }
         } while (opcao != 0);
     }

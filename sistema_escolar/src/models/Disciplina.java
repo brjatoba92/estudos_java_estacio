@@ -2,22 +2,32 @@ package models;
 
 public class Disciplina {
     // Atributos
-    private String nome;
+    private String codigoCadastro;
+    private String nomeCadastro;
     private int cargaHoraria; // em horas
 
     // Construtor
-    public Disciplina(String nome, int cargaHoraria) {
-        this.nome = nome;
+    public Disciplina(String codigoCadastro, String nomeCadastro, int cargaHoraria) {
+        this.codigoCadastro = codigoCadastro;
+        this.nomeCadastro = nomeCadastro;
         this.cargaHoraria = cargaHoraria;
     }
 
     // Getters e Setters
+
+    public String getCodigo() {
+        return codigoCadastro;
+    }
     public String getNome() {
-        return nome;
+        return nomeCadastro;
     }
 
     public int getCargaHoraria() {
         return cargaHoraria;
+    }
+
+    public void setNome(String nomeCadastro) {
+        this.nomeCadastro = nomeCadastro;
     }
 
     public void setCargaHoraria(int cargaHoraria) {
@@ -26,12 +36,12 @@ public class Disciplina {
 
     // Método para exibir resumo da disciplina
     public void exibirInfo() {
-        System.out.println("Disciplina: " + nome);
+        System.out.println("Disciplina: " + nomeCadastro);
         System.out.println("Carga Horária: " + cargaHoraria + " h");
     }
 
     @Override
     public String toString() {
-        return nome + " (" + cargaHoraria + "h)";
+        return codigoCadastro +  " - " + nomeCadastro + " (" + cargaHoraria + "h)";
     }
 }

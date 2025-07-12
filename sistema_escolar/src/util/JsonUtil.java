@@ -6,6 +6,8 @@ import com.google.gson.GsonBuilder;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.ArrayList;
 
 public class JsonUtil {
 
@@ -23,12 +25,12 @@ public class JsonUtil {
         }
     }
 
-    public static <T> T carregarLista(String caminhoArquivo, Class<T> classe) {
+    public static <T> List<T> carregarLista(String caminhoArquivo, Type type) {
         try (FileReader reader = new FileReader(caminhoArquivo)) {
-            return gson.fromJson(reader, classe);
+            return gson.fromJson(reader, type);
         } catch (IOException e) {
-            System.err.println("Erro ao carregar arquivo: " + e.getMessage());
-            return null;
+            System.err.println("Erro ao carregar lista: " + e.getMessage());
+            return new ArrayList<>();
         }
     }
 }

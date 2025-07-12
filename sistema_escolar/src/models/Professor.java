@@ -9,13 +9,20 @@ public class Professor {
     private String matricula;
     private List<Turma> turmas;
 
-    public Professor(String nome, String disciplina, String matricula) {
-        this.nome = nome;
-        this.disciplina = disciplina;
-        this.matricula = matricula;
+    // ✅ Construtor vazio exigido pelo Gson
+    public Professor() {
         this.turmas = new ArrayList<>();
     }
 
+    // Construtor principal
+    public Professor(String nome, String matricula, String disciplina) {
+        this.nome = nome;
+        this.matricula = matricula;
+        this.disciplina = disciplina;
+        this.turmas = new ArrayList<>();
+    }
+
+    // Getters e Setters
     public String getNome() {
         return nome;
     }
