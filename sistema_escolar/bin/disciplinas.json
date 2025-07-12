@@ -1,0 +1,12 @@
+[
+  {
+    "codigoCadastro": "METD001",
+    "nomeCadastro": "Climatologia",
+    "cargaHoraria": 240
+  },
+  {
+    "codigoCadastro": "METD002",
+    "nomeCadastro": "Calculo 1",
+    "cargaHoraria": 160
+  }
+]

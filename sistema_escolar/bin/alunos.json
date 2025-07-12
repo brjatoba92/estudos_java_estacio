@@ -1,8 +1,20 @@
 [
   {
-    "nome": "Jorge Matheus",
+    "nome": "Klenio Durval",
+    "matricula": "0001",
+    "dataNascimento": "2015-07-03",
+    "notas": []
+  },
+  {
+    "nome": "Jaime Vilela",
+    "matricula": "0002",
+    "dataNascimento": "2004-10-21",
+    "notas": []
+  },
+  {
+    "nome": "Bruno Jr Aragão Jatobá",
     "matricula": "0003",
-    "dataNascimento": "2019-02-25",
+    "dataNascimento": "2035-08-05",
     "notas": []
   }
 ]

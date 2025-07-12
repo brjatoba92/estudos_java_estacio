@@ -1,52 +1,38 @@
-import models.*;
-import util.JsonUtil;
 import services.AlunoService;
 import services.ProfessorService;
+import services.TurmaService;
+import services.DisciplinaService;
 
-import java.time.LocalDate;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Escola escola = new Escola("Colégio Java", "12.345.678/0001-90");
-
-        // Ajuste os parâmetros conforme o construtor da classe Professor
-        Professor prof = new Professor("João Silva", "Matemática", "123456"); // Exemplo: adicionando um registro ou ID se necessário
-        escola.adicionarProfessor(prof);
-
-        Turma turma = new Turma("1A", "1º Ano", null); // Evita referência cíclica
-        escola.adicionarTurma(turma);
-
-        Aluno aluno1 = new Aluno("Maria Souza", "A001", "2008-06-01");
-        Aluno aluno2 = new Aluno("Carlos Silva", "A002", "2009-08-15");
-
-        escola.adicionarAluno(aluno1);
-        escola.adicionarAluno(aluno2);
-
-        turma.adicionarAluno(aluno1);
-        turma.adicionarAluno(aluno2);
-
-        Disciplina matematica = new Disciplina("Matemática", 60);
-        Prova prova1 = new Prova("Prova Semestral 1", matematica, LocalDate.of(2025, 8, 15), 2.0);
-        Prova prova2 = new Prova("Prova Semestral 2", matematica, LocalDate.of(2025, 12, 15), 3.0);
+        Scanner scanner = new Scanner(System.in);
 
         AlunoService alunoService = new AlunoService();
         ProfessorService professorService = new ProfessorService();
+        TurmaService turmaService = new TurmaService();
+        DisciplinaService disciplinaService = new DisciplinaService();
 
-        aluno1.adicionarNota(new Nota(8.5, prova1));
-        aluno1.adicionarNota(new Nota(7.0, prova2));
-        aluno2.adicionarNota(new Nota(6.0, prova1));
-        aluno2.adicionarNota(new Nota(8.0, prova2));
+        int opcao;
+        do {
+            System.out.println("\n==== SISTEMA ESCOLAR ====");
+            System.out.println("1 - Menu de Alunos");
+            System.out.println("2 - Menu de Professores");
+            System.out.println("3 - Menu de Turmas");
+            System.out.println("4 - Menu de Disciplinas");
+            System.out.println("0 - Sair");
+            System.out.print("Escolha uma opção: ");
+            opcao = Integer.parseInt(scanner.nextLine());
 
-        alunoService.menuInterativo();
-        professorService.menuInterativo();
-
-        // Salvar dados
-        JsonUtil.salvar(escola, "escola.json");
-
-        // Carregar e exibir
-        Escola escolaCarregada = JsonUtil.carregarLista("escola.json", Escola.class);
-        if (escolaCarregada != null) {
-            escolaCarregada.listarAlunos();
-        }
+            switch (opcao) {
+                case 1 : alunoService.menuInterativo();
+                case 2 : professorService.menuInterativo();
+                case 3 : turmaService.menuInterativo();
+                case 4 : disciplinaService.menuInterativo();
+                case 0 : System.out.println("Encerrando o sistema...");
+                default : System.out.println("⚠️ Opção inválida!");
+            }
+        } while (opcao != 0);
     }
 }
