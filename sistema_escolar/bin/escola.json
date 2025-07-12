@@ -75,6 +75,7 @@
     {
       "nome": "João Silva",
       "disciplina": "Matemática",
+      "matricula": "123456",
       "turmas": []
     }
   ],

@@ -1,6 +1,7 @@
 import models.*;
 import util.JsonUtil;
 import services.AlunoService;
+import services.ProfessorService;
 
 import java.time.LocalDate;
 
@@ -8,7 +9,8 @@ public class Main {
     public static void main(String[] args) {
         Escola escola = new Escola("Colégio Java", "12.345.678/0001-90");
 
-        Professor prof = new Professor("João Silva", "Matemática");
+        // Ajuste os parâmetros conforme o construtor da classe Professor
+        Professor prof = new Professor("João Silva", "Matemática", "123456"); // Exemplo: adicionando um registro ou ID se necessário
         escola.adicionarProfessor(prof);
 
         Turma turma = new Turma("1A", "1º Ano", null); // Evita referência cíclica
@@ -28,6 +30,7 @@ public class Main {
         Prova prova2 = new Prova("Prova Semestral 2", matematica, LocalDate.of(2025, 12, 15), 3.0);
 
         AlunoService alunoService = new AlunoService();
+        ProfessorService professorService = new ProfessorService();
 
         aluno1.adicionarNota(new Nota(8.5, prova1));
         aluno1.adicionarNota(new Nota(7.0, prova2));
@@ -35,6 +38,7 @@ public class Main {
         aluno2.adicionarNota(new Nota(8.0, prova2));
 
         alunoService.menuInterativo();
+        professorService.menuInterativo();
 
         // Salvar dados
         JsonUtil.salvar(escola, "escola.json");
