@@ -1,20 +1,14 @@
 [
   {
-    "nome": "Bruno Jatoba",
-    "disciplina": "Calculo 1",
+    "nome": "Bruno Jatobá",
+    "disciplina": "Matemática 1 para Meteorologia",
     "matricula": "PROF01",
-    "valorHora": 60.0
+    "valorHora": 50.0
   },
   {
     "nome": "Rodrigo Lins",
     "disciplina": "Climatologia",
     "matricula": "PROF02",
-    "valorHora": 50.0
-  },
-  {
-    "nome": "Marcelo Lopes",
-    "disciplina": "Calculo 2",
-    "matricula": "PROF03",
     "valorHora": 50.0
   }
 ]

@@ -2,6 +2,8 @@ package services;
 
 import com.google.gson.reflect.TypeToken;
 import models.Professor;
+import models.Disciplina;
+import services.DisciplinaService;
 import util.JsonUtil;
 
 import java.io.File;
@@ -123,11 +125,16 @@ public class ProfessorService {
                     String nome = scanner.nextLine();
                     System.out.print("Matrícula: ");
                     String matricula = scanner.nextLine();
-                    System.out.print("Disciplina: ");
-                    String disciplina = scanner.nextLine();
+                    
+                    // Selecionar disciplina
+                    Disciplina disciplinaSelecionada = selecionarDisciplina(scanner);
+                    if (disciplinaSelecionada == null) {
+                        break;
+                    }
+                    
                     System.out.print("Valor por hora: ");
                     double valorHora = Double.parseDouble(scanner.nextLine());
-                    cadastrar(new Professor(nome, matricula, disciplina, valorHora));
+                    cadastrar(new Professor(nome, matricula, disciplinaSelecionada.getNome(), valorHora));
                     break;
                 
                 case 2 : 
@@ -150,11 +157,16 @@ public class ProfessorService {
                     String matAtualiza = scanner.nextLine();
                     System.out.print("Novo nome: ");
                     String novoNome = scanner.nextLine();
-                    System.out.print("Nova disciplina: ");
-                    String disc = scanner.nextLine();
+                    
+                    // Selecionar nova disciplina
+                    Disciplina novaDisciplina = selecionarDisciplina(scanner);
+                    if (novaDisciplina == null) {
+                        break;
+                    }
+                    
                     System.out.print("Novo valor por hora: ");
                     double novoValorHora = Double.parseDouble(scanner.nextLine());
-                    atualizar(matAtualiza, novoNome, disc, novoValorHora);
+                    atualizar(matAtualiza, novoNome, novaDisciplina.getNome(), novoValorHora);
                     break;
                 case 5 :
                     System.out.print("Matrícula: ");
@@ -193,5 +205,22 @@ public class ProfessorService {
                     System.out.println("Opção inválida!");
             }
         } while (opcao != 0);
+    }
+
+    private Disciplina selecionarDisciplina(Scanner scanner) {
+        DisciplinaService disciplinaService = new DisciplinaService();
+        List<Disciplina> disciplinas = disciplinaService.listarTodas();
+        if (disciplinas.isEmpty()) {
+            System.out.println("Nenhuma disciplina cadastrada. Cadastre uma disciplina primeiro.");
+            return null;
+        }
+        System.out.println("Disciplinas disponíveis:");
+        for (int i = 0; i < disciplinas.size(); i++) {
+            System.out.println((i+1) + " - " + disciplinas.get(i));
+        }
+        System.out.print("Escolha o número da disciplina: ");
+        int escolha = Integer.parseInt(scanner.nextLine());
+        Disciplina disciplina = disciplinas.get(escolha - 1);
+        return disciplina;
     }
 }

@@ -1,8 +1,14 @@
 [
   {
-    "codigo": "TURMA1_2025",
-    "serie": "1SEM",
+    "codigo": "TURMA01_2025",
+    "serie": "SEM01",
     "matriculaProfessor": "PROF01",
-    "cargaHoraria": 30
+    "cargaHoraria": 20
+  },
+  {
+    "codigo": "TURMA02_2025",
+    "serie": "SEM02",
+    "matriculaProfessor": "PROF02",
+    "cargaHoraria": 20
   }
 ]

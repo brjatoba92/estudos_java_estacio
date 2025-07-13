@@ -36,10 +36,21 @@ public class DisciplinaService {
         return null;
     }
 
-    public void atualizar(String codigo, String novoNome) {
+    public void atualizar(String codigo, String novoCodigo, String novoNome, int novaCargaHoraria) {
         Disciplina disciplina = buscarPorCodigo(codigo);
         if (disciplina != null) {
+            // Verificar se o novo código já existe (se for diferente do atual)
+            if (!codigo.equalsIgnoreCase(novoCodigo)) {
+                Disciplina disciplinaExistente = buscarPorCodigo(novoCodigo);
+                if (disciplinaExistente != null) {
+                    System.out.println("⚠️ Já existe uma disciplina com o código " + novoCodigo);
+                    return;
+                }
+            }
+            
+            disciplina.setCodigo(novoCodigo);
             disciplina.setNome(novoNome);
+            disciplina.setCargaHoraria(novaCargaHoraria);
             salvar();
             System.out.println("✅ Disciplina atualizada com sucesso!");
         } else {
@@ -123,11 +134,24 @@ public class DisciplinaService {
                     break;
                 
                 case 4 :
-                    System.out.print("Código: ");
+                    System.out.print("Código da disciplina a atualizar: ");
                     String codigoAtualiza = scanner.nextLine();
-                    System.out.print("Novo nome: ");
-                    String nomeAtualiza = scanner.nextLine();
-                    atualizar(codigoAtualiza, nomeAtualiza);
+                    Disciplina disciplinaParaAtualizar = buscarPorCodigo(codigoAtualiza);
+                    if (disciplinaParaAtualizar != null) {
+                        System.out.println("Disciplina encontrada: " + disciplinaParaAtualizar);
+                        System.out.print("Novo código (ou pressione Enter para manter o atual): ");
+                        String novoCodigo = scanner.nextLine();
+                        if (novoCodigo.trim().isEmpty()) {
+                            novoCodigo = codigoAtualiza;
+                        }
+                        System.out.print("Novo nome: ");
+                        String nomeAtualiza = scanner.nextLine();
+                        System.out.print("Nova carga horária: ");
+                        int novaCargaHoraria = Integer.parseInt(scanner.nextLine());
+                        atualizar(codigoAtualiza, novoCodigo, nomeAtualiza, novaCargaHoraria);
+                    } else {
+                        System.out.println("⚠️ Disciplina não encontrada.");
+                    }
                     break;
                 
                 case 5 :
