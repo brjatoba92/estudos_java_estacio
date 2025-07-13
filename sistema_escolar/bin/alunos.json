@@ -1,11 +1,11 @@
 [
   {
-    "nome": "Lucas Albuquerque",
+    "nome": "Alex Moreira",
     "matricula": "AL0001",
-    "dataNascimento": "2004-05-14",
+    "dataNascimento": "2010-02-25",
     "notas": [
       {
-        "valor": 6.0,
+        "valor": 7.0,
         "prova": {
           "descricao": "AV1",
           "disciplina": {
@@ -13,16 +13,82 @@
             "nomeCadastro": "Calculo 1",
             "cargaHoraria": 220
           },
-          "data": "2025-07-10",
+          "data": "2025-06-26",
           "peso": 2.0
         }
+      },
+      {
+        "valor": 8.0,
+        "prova": {
+          "descricao": "AV2",
+          "disciplina": {
+            "codigoCadastro": "MET01",
+            "nomeCadastro": "Calculo 1",
+            "cargaHoraria": 220
+          },
+          "data": "2025-09-14",
+          "peso": 1.5
+        }
+      },
+      {
+        "valor": 6.0,
+        "prova": {
+          "descricao": "AV1",
+          "disciplina": {
+            "codigoCadastro": "MET03",
+            "nomeCadastro": "Fisica 1",
+            "cargaHoraria": 200
+          },
+          "data": "2025-07-23",
+          "peso": 1.5
+        }
+      },
+      {
+        "valor": 10.0,
+        "prova": {
+          "descricao": "AV2",
+          "disciplina": {
+            "codigoCadastro": "MET03",
+            "nomeCadastro": "Fisica 1",
+            "cargaHoraria": 200
+          },
+          "data": "2025-09-21",
+          "peso": 15.0
+        }
       }
-    ]
+    ],
+    "mediaGeral": 9.25,
+    "mediasPorDisciplina": {
+      "MET01": 7.428571428571429,
+      "MET03": 9.636363636363637
+    },
+    "statusAprovacao": "APROVADO"
   },
   {
-    "nome": "Carla Tenorio",
+    "nome": "Alicia Felix",
     "matricula": "AL0002",
-    "dataNascimento": "2006-01-05",
-    "notas": []
+    "dataNascimento": "2012-02-05",
+    "notas": [],
+    "mediaGeral": 0.0,
+    "mediasPorDisciplina": {},
+    "statusAprovacao": "SEM NOTAS"
+  },
+  {
+    "nome": "Nuno Moreira",
+    "matricula": "AL003",
+    "dataNascimento": "2014-06-20",
+    "notas": [],
+    "mediaGeral": 0.0,
+    "mediasPorDisciplina": {},
+    "statusAprovacao": "SEM NOTAS"
+  },
+  {
+    "nome": "Maria Helsique",
+    "matricula": "AL0004",
+    "dataNascimento": "2015-07-25",
+    "notas": [],
+    "mediaGeral": 0.0,
+    "mediasPorDisciplina": {},
+    "statusAprovacao": "SEM NOTAS"
   }
 ]

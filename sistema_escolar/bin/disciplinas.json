@@ -1,32 +1,47 @@
 [
   {
-    "codigoCadastro": "MET01",
-    "nomeCadastro": "Calculo 1",
-    "cargaHoraria": 220
+    "codigoCadastro": "METR100",
+    "nomeCadastro": "Matemática 1 para Meteorologia",
+    "cargaHoraria": 72
   },
   {
-    "codigoCadastro": "MET02",
-    "nomeCadastro": "Fisica 1",
-    "cargaHoraria": 250
+    "codigoCadastro": "METR134",
+    "nomeCadastro": "Climatologia",
+    "cargaHoraria": 72
   },
   {
-    "codigoCadastro": "MET03",
-    "nomeCadastro": "Instrumentação Meteorologica",
-    "cargaHoraria": 140
+    "codigoCadastro": "METR109",
+    "nomeCadastro": "Fisica 1 para Meteorologia",
+    "cargaHoraria": 72
   },
   {
-    "codigoCadastro": "MET04",
-    "nomeCadastro": "Computação Aplicada",
-    "cargaHoraria": 170
+    "codigoCadastro": "METR094",
+    "nomeCadastro": "Introdução à Computação",
+    "cargaHoraria": 72
   },
   {
-    "codigoCadastro": "MET05",
-    "nomeCadastro": "Calculo 2",
-    "cargaHoraria": 260
+    "codigoCadastro": "METR095",
+    "nomeCadastro": "Elementos de Cartografia e Astronomia",
+    "cargaHoraria": 72
   },
   {
-    "codigoCadastro": "MET06",
-    "nomeCadastro": "Climatologia 1",
-    "cargaHoraria": 280
+    "codigoCadastro": "METR096",
+    "nomeCadastro": "Fundamentos da Meteorologia",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR097",
+    "nomeCadastro": "Instrumentos",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR098",
+    "nomeCadastro": "Tecnicas de Midas",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR099",
+    "nomeCadastro": "Fundamentos da Matematica",
+    "cargaHoraria": 72
   }
 ]

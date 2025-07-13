@@ -5,12 +5,17 @@ import models.Aluno;
 import models.Nota;
 import models.Disciplina;
 import models.Prova;
+import models.Turma;
+import services.TurmaService;
+import services.DisciplinaService;
 
 import util.JsonUtil;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.time.LocalDate;
 
@@ -104,7 +109,9 @@ public class AlunoService {
             System.out.println("3 - Buscar aluno por matrícula");
             System.out.println("4 - Atualizar aluno");
             System.out.println("5 - Remover aluno");
-            System.out.println("6. Adicionar nota");
+            System.out.println("6 - Adicionar nota");
+            System.out.println("7 - Calcular médias");
+            System.out.println("8 - Atualizar médias de todos os alunos");
             System.out.println("0 - Sair");
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
@@ -122,8 +129,14 @@ public class AlunoService {
                     break;
 
                 case 2:
+                    System.out.println("\n=== LISTA DE ALUNOS ===");
+                    System.out.println("Matrícula | Nome | Data Nascimento | Média Geral | Status");
+                    System.out.println("-".repeat(80));
                     for (Aluno a : listarTodos()) {
-                        System.out.println(a.getMatricula() + " | " + a.getNome() + " | " + a.getDataNascimento());
+                        System.out.println(a.getMatricula() + " | " + a.getNome() + " | " + 
+                                         a.getDataNascimento() + " | " + 
+                                         String.format("%.2f", a.getMediaGeral()) + " | " + 
+                                         a.getStatusAprovacaoSalvo());
                     }
                     break;
 
@@ -163,14 +176,12 @@ public class AlunoService {
                         System.out.println("\u26A0 Aluno nao encontrado!");
                         break;
                     }
-                    System.out.print("Código da disciplina: ");
-                    String codDisciplina = scanner.nextLine();
-                    System.out.print("Nome da disciplina : ");
-                    String nomeDisciplina = scanner.nextLine();
-                    System.out.print("Carga horaria: ");
-                    int cargaHoraria = Integer.parseInt(scanner.nextLine());
-
-                    Disciplina disciplina = new Disciplina(codDisciplina, nomeDisciplina, cargaHoraria);
+                    
+                    // Selecionar disciplina
+                    Disciplina disciplina = selecionarDisciplina(scanner);
+                    if (disciplina == null) {
+                        break;
+                    }
 
                     System.out.print("Descrição da prova: ");
                     String descricao = scanner.nextLine();
@@ -188,6 +199,35 @@ public class AlunoService {
                     aluno.adicionarNota(nota);
                     salvar();
                     System.out.println("\u2705 Nota adicionada ao aluno com sucesso!");
+                    System.out.println("Média atualizada: " + String.format("%.2f", aluno.getMediaGeral()) + 
+                                     " - Status: " + aluno.getStatusAprovacaoSalvo());
+                    break;
+                
+                case 7:
+                    System.out.println("\n=== CÁLCULO DE MÉDIAS ===");
+                    System.out.println("1 - Média individual do aluno");
+                    System.out.println("2 - Média geral da turma");
+                    System.out.println("3 - Média por disciplina");
+                    System.out.print("Escolha uma opção: ");
+                    int opcaoMedia = Integer.parseInt(scanner.nextLine());
+                    
+                    switch (opcaoMedia) {
+                        case 1:
+                            calcularMediaIndividual(scanner);
+                            break;
+                        case 2:
+                            calcularMediaTurma(scanner);
+                            break;
+                        case 3:
+                            calcularMediaDisciplina(scanner);
+                            break;
+                        default:
+                            System.out.println("Opção inválida!");
+                    }
+                    break;
+                
+                case 8:
+                    atualizarMediasTodosAlunos();
                     break;
                 
                 case 0 : 
@@ -198,5 +238,203 @@ public class AlunoService {
                     System.out.println("Opção inválida!");
             }
         } while (opcao != 0);
+    }
+
+    private void calcularMediaIndividual(Scanner scanner) {
+        System.out.print("Matrícula do aluno: ");
+        String matricula = scanner.nextLine();
+        Aluno aluno = buscarPorMatricula(matricula);
+        
+        if (aluno == null) {
+            System.out.println("\u26A0 Aluno não encontrado!");
+            return;
+        }
+        
+        System.out.println("\n=== MÉDIA INDIVIDUAL ===");
+        System.out.println("Aluno: " + aluno.getNome() + " (" + matricula + ")");
+        
+        if (aluno.getNotas().isEmpty()) {
+            System.out.println("Nenhuma nota registrada para este aluno.");
+            return;
+        }
+        
+        // Média geral
+        System.out.println("Média geral: " + String.format("%.2f", aluno.getMediaGeral()));
+        System.out.println("Status: " + aluno.getStatusAprovacaoSalvo());
+        
+        // Média por disciplina
+        System.out.println("\nMédias por disciplina:");
+        if (aluno.getMediasPorDisciplina().isEmpty()) {
+            System.out.println("Nenhuma média por disciplina calculada.");
+        } else {
+            for (Map.Entry<String, Double> entry : aluno.getMediasPorDisciplina().entrySet()) {
+                String codigoDisciplina = entry.getKey();
+                Double media = entry.getValue();
+                
+                // Buscar nome da disciplina
+                String nomeDisciplina = "Desconhecida";
+                for (Nota nota : aluno.getNotas()) {
+                    if (nota.getDisciplina().getCodigo().equals(codigoDisciplina)) {
+                        nomeDisciplina = nota.getDisciplina().getNome();
+                        break;
+                    }
+                }
+                
+                System.out.println("- " + nomeDisciplina + " (" + codigoDisciplina + "): " + 
+                                 String.format("%.2f", media) + " - " + 
+                                 aluno.getStatusAprovacaoDisciplina(codigoDisciplina));
+            }
+        }
+        
+        // Detalhamento das notas
+        System.out.println("\nDetalhamento das notas:");
+        for (Nota nota : aluno.getNotas()) {
+            System.out.println("- " + nota.getDisciplina().getNome() + ": " + 
+                             String.format("%.2f", nota.getValor()) + 
+                             " (Prova: " + nota.getProva().getDescricao() + 
+                             ", Peso: " + nota.getProva().getPeso() + ")");
+        }
+    }
+
+    private void calcularMediaTurma(Scanner scanner) {
+        System.out.print("Código da turma: ");
+        String codigoTurma = scanner.nextLine();
+        
+        // Buscar turma (precisamos acessar o TurmaService)
+        TurmaService turmaService = new TurmaService();
+        Turma turma = turmaService.buscarPorCodigo(codigoTurma);
+        
+        if (turma == null) {
+            System.out.println("\u26A0 Turma não encontrada!");
+            return;
+        }
+        
+        System.out.println("\n=== MÉDIA DA TURMA ===");
+        System.out.println("Turma: " + turma.getCodigo() + " - " + turma.getSerie());
+        
+        List<Aluno> alunosTurma = turma.getAlunos();
+        if (alunosTurma.isEmpty()) {
+            System.out.println("Nenhum aluno matriculado nesta turma.");
+            return;
+        }
+        
+        double mediaTurma = 0.0;
+        int totalAlunos = 0;
+        
+        System.out.println("\nMédias individuais:");
+        for (Aluno aluno : alunosTurma) {
+            double mediaAluno = aluno.calcularMedia();
+            mediaTurma += mediaAluno;
+            totalAlunos++;
+            System.out.println("- " + aluno.getNome() + ": " + String.format("%.2f", mediaAluno));
+        }
+        
+        if (totalAlunos > 0) {
+            mediaTurma /= totalAlunos;
+            System.out.println("\nMédia geral da turma: " + String.format("%.2f", mediaTurma));
+        }
+    }
+
+    private void calcularMediaDisciplina(Scanner scanner) {
+        System.out.print("Código da disciplina: ");
+        String codigoDisciplina = scanner.nextLine();
+        
+        System.out.println("\n=== MÉDIA POR DISCIPLINA ===");
+        System.out.println("Disciplina: " + codigoDisciplina);
+        
+        double mediaDisciplina = 0.0;
+        int totalNotas = 0;
+        List<Aluno> alunosComNotas = new ArrayList<>();
+        
+        for (Aluno aluno : alunos) {
+            double somaNotasDisciplina = 0.0;
+            int contadorNotas = 0;
+            
+            for (Nota nota : aluno.getNotas()) {
+                if (nota.getDisciplina().getCodigo().equalsIgnoreCase(codigoDisciplina)) {
+                    somaNotasDisciplina += nota.getValor();
+                    contadorNotas++;
+                }
+            }
+            
+            if (contadorNotas > 0) {
+                double mediaAluno = somaNotasDisciplina / contadorNotas;
+                mediaDisciplina += mediaAluno;
+                totalNotas++;
+                alunosComNotas.add(aluno);
+                System.out.println("- " + aluno.getNome() + ": " + String.format("%.2f", mediaAluno));
+            }
+        }
+        
+        if (totalNotas > 0) {
+            mediaDisciplina /= totalNotas;
+            System.out.println("\nMédia geral da disciplina: " + String.format("%.2f", mediaDisciplina));
+            System.out.println("Total de alunos com notas: " + totalNotas);
+        } else {
+            System.out.println("Nenhuma nota encontrada para esta disciplina.");
+        }
+    }
+
+    private void calcularMediaPorDisciplina(Aluno aluno) {
+        Map<String, String> nomesDisciplinas = new HashMap<>();
+        
+        for (Nota nota : aluno.getNotas()) {
+            String codigoDisciplina = nota.getDisciplina().getCodigo();
+            String nomeDisciplina = nota.getDisciplina().getNome();
+            nomesDisciplinas.put(codigoDisciplina, nomeDisciplina);
+        }
+        
+        for (Map.Entry<String, String> entry : nomesDisciplinas.entrySet()) {
+            String codigoDisciplina = entry.getKey();
+            String nomeDisciplina = entry.getValue();
+            
+            double media = aluno.calcularMediaDisciplina(codigoDisciplina);
+            int quantidadeNotas = (int) aluno.getNotas().stream()
+                .filter(nota -> nota.getDisciplina().getCodigo().equalsIgnoreCase(codigoDisciplina))
+                .count();
+            
+            System.out.println("- " + nomeDisciplina + " (" + codigoDisciplina + "): " + 
+                             String.format("%.2f", media) + " (" + quantidadeNotas + " nota(s)) - " + 
+                             aluno.getStatusAprovacaoDisciplina(codigoDisciplina));
+        }
+    }
+
+    private void atualizarMediasTodosAlunos() {
+        System.out.println("\n=== ATUALIZANDO MÉDIAS DE TODOS OS ALUNOS ===");
+        int alunosAtualizados = 0;
+        
+        for (Aluno aluno : alunos) {
+            if (!aluno.getNotas().isEmpty()) {
+                aluno.atualizarMedias();
+                alunosAtualizados++;
+                System.out.println("✓ " + aluno.getNome() + " - Média: " + 
+                                 String.format("%.2f", aluno.getMediaGeral()) + 
+                                 " - Status: " + aluno.getStatusAprovacaoSalvo());
+            }
+        }
+        
+        if (alunosAtualizados > 0) {
+            salvar();
+            System.out.println("\n✅ " + alunosAtualizados + " aluno(s) atualizado(s) com sucesso!");
+        } else {
+            System.out.println("\n⚠️ Nenhum aluno com notas encontrado para atualizar.");
+        }
+    }
+
+    private Disciplina selecionarDisciplina(Scanner scanner) {
+        DisciplinaService disciplinaService = new DisciplinaService();
+        List<Disciplina> disciplinas = disciplinaService.listarTodas();
+        if (disciplinas.isEmpty()) {
+            System.out.println("Nenhuma disciplina cadastrada. Cadastre uma disciplina primeiro.");
+            return null;
+        }
+        System.out.println("Disciplinas disponíveis:");
+        for (int i = 0; i < disciplinas.size(); i++) {
+            System.out.println((i+1) + " - " + disciplinas.get(i));
+        }
+        System.out.print("Escolha o número da disciplina: ");
+        int escolha = Integer.parseInt(scanner.nextLine());
+        Disciplina disciplina = disciplinas.get(escolha - 1);
+        return disciplina;
     }
 }

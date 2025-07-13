@@ -83,4 +83,17 @@ public class Turma {
             System.out.println("- " + aluno.getNome() + " (Matrícula: " + aluno.getMatricula() + ")");
         }
     }
+
+    @Override
+    public String toString() {
+        String professorNome = "Não atribuído";
+        if (professorResponsavel != null && professorResponsavel.getNome() != null) {
+            professorNome = professorResponsavel.getNome();
+        }
+        
+        return "Turma " + codigo + " - " + serie + 
+               " | Professor: " + professorNome + 
+               " | Carga Horária: " + cargaHoraria + "h" +
+               " | Alunos: " + alunos.size();
+    }
 }

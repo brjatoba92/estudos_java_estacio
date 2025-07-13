@@ -111,4 +111,15 @@ public class Professor {
         
         System.out.println("\nVALOR TOTAL: R$ " + String.format("%.2f", valorTotal));
     }
+
+    @Override
+    public String toString() {
+        String nomeProf = nome != null ? nome : "Nome não informado";
+        String matriculaProf = matricula != null ? matricula : "Matrícula não informada";
+        String disciplinaProf = disciplina != null ? disciplina : "Disciplina não informada";
+        
+        return "Prof. " + nomeProf + " (" + matriculaProf + ") - " + disciplinaProf + 
+               " | R$ " + String.format("%.2f", valorHora) + "/h" +
+               " | Turmas: " + (turmas != null ? turmas.size() : 0);
+    }
 }

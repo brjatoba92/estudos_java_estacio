@@ -39,6 +39,10 @@ public class Disciplina {
         this.cargaHoraria = cargaHoraria;
     }
 
+    public void setCodigo(String codigoCadastro) {
+        this.codigoCadastro = codigoCadastro;
+    }
+
     // Método para exibir resumo da disciplina
     public void exibirInfo() {
         System.out.println("Disciplina: " + nomeCadastro);

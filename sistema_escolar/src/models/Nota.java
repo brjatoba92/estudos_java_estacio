@@ -35,4 +35,26 @@ public class Nota {
         System.out.println("Nota: " + valor +  " | Disciplina: " + prova.getDisciplina().getNome() +
                            " | Prova: " + prova.getDescricao());
     }
+
+    @Override
+    public String toString() {
+        if (prova == null) {
+            return String.format("%.2f", valor) + " - Prova não informada";
+        }
+        
+        String disciplinaNome = "Disciplina não informada";
+        String provaDescricao = "Descrição não informada";
+        
+        if (prova.getDisciplina() != null) {
+            disciplinaNome = prova.getDisciplina().getNome() != null ? 
+                           prova.getDisciplina().getNome() : "Disciplina não informada";
+        }
+        
+        if (prova.getDescricao() != null) {
+            provaDescricao = prova.getDescricao();
+        }
+        
+        return String.format("%.2f", valor) + " - " + disciplinaNome + 
+               " (" + provaDescricao + ")";
+    }
 }

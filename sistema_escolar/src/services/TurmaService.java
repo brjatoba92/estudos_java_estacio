@@ -114,20 +114,20 @@ public class TurmaService {
                     String codigo = scanner.nextLine();
                     System.out.print("Série: ");
                     String serie = scanner.nextLine();
-                    System.out.print("Matrícula do Professor Responsável: ");
-                    String matriculaProf = scanner.nextLine();
+                    
+                    // Selecionar professor
+                    Professor professor = selecionarProfessor(scanner);
+                    if (professor == null) {
+                        break;
+                    }
+                    
                     System.out.print("Carga horária (horas por semana): ");
                     int cargaHoraria = Integer.parseInt(scanner.nextLine());
 
-                    Professor professor = professorService.buscarPorMatricula(matriculaProf);
-                    if (professor != null) {
-                        Turma novaTurma = new Turma(codigo, serie, professor, cargaHoraria);
-                        cadastrar(novaTurma);
-                        professor.adicionarTurma(novaTurma);
-                        professorService.salvar(); // Salvar as mudanças do professor
-                    } else {
-                        System.out.println("\u26A0 Professor não encontrado. Turma não cadastrada.");
-                    }
+                    Turma novaTurma = new Turma(codigo, serie, professor, cargaHoraria);
+                    cadastrar(novaTurma);
+                    professor.adicionarTurma(novaTurma);
+                    professorService.salvar(); // Salvar as mudanças do professor
                     break;
                 
                 case 2 : 
@@ -169,5 +169,54 @@ public class TurmaService {
                     System.out.println("Opção inválida!");
             }
         } while (opcao != 0);
+    }
+
+    private Professor selecionarProfessor(Scanner scanner) {
+        ProfessorService professorService = new ProfessorService();
+        List<Professor> professores = professorService.listarTodos();
+        if (professores.isEmpty()) {
+            System.out.println("Nenhum professor cadastrado. Cadastre um professor primeiro.");
+            return null;
+        }
+        
+        System.out.println("Professores disponíveis:");
+        for (int i = 0; i < professores.size(); i++) {
+            Professor prof = professores.get(i);
+            System.out.println((i+1) + " - " + prof.toString());
+        }
+        
+        System.out.print("Escolha o número do professor (ou digite 0 para buscar por matrícula): ");
+        String escolhaStr = scanner.nextLine();
+        
+        if (escolhaStr.equals("0")) {
+            // Buscar por matrícula
+            System.out.print("Digite a matrícula do professor: ");
+            String matriculaBusca = scanner.nextLine();
+            Professor professor = professorService.buscarPorMatricula(matriculaBusca);
+            
+            if (professor != null) {
+                System.out.println("✓ Professor encontrado: " + professor.getNome());
+                return professor;
+            } else {
+                System.out.println("\u26A0 Professor não encontrado!");
+                return null;
+            }
+        } else {
+            // Escolher por número
+            try {
+                int escolha = Integer.parseInt(escolhaStr);
+                if (escolha > 0 && escolha <= professores.size()) {
+                    Professor professor = professores.get(escolha - 1);
+                    System.out.println("✓ Professor selecionado: " + professor.getNome());
+                    return professor;
+                } else {
+                    System.out.println("\u26A0 Opção inválida!");
+                    return null;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("\u26A0 Opção inválida!");
+                return null;
+            }
+        }
     }
 }
