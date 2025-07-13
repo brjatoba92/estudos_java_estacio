@@ -1,12 +1,32 @@
 [
   {
-    "codigoCadastro": "METD001",
-    "nomeCadastro": "Climatologia",
-    "cargaHoraria": 240
+    "codigoCadastro": "MET01",
+    "nomeCadastro": "Calculo 1",
+    "cargaHoraria": 220
   },
   {
-    "codigoCadastro": "METD002",
-    "nomeCadastro": "Calculo 1",
-    "cargaHoraria": 160
+    "codigoCadastro": "MET02",
+    "nomeCadastro": "Fisica 1",
+    "cargaHoraria": 250
+  },
+  {
+    "codigoCadastro": "MET03",
+    "nomeCadastro": "Instrumentação Meteorologica",
+    "cargaHoraria": 140
+  },
+  {
+    "codigoCadastro": "MET04",
+    "nomeCadastro": "Computação Aplicada",
+    "cargaHoraria": 170
+  },
+  {
+    "codigoCadastro": "MET05",
+    "nomeCadastro": "Calculo 2",
+    "cargaHoraria": 260
+  },
+  {
+    "codigoCadastro": "MET06",
+    "nomeCadastro": "Climatologia 1",
+    "cargaHoraria": 280
   }
 ]

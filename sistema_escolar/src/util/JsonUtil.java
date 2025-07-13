@@ -13,6 +13,7 @@ public class JsonUtil {
 
     private static final Gson gson = new GsonBuilder()
         .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+        .excludeFieldsWithoutExposeAnnotation()
         .setPrettyPrinting()
         .create();
 

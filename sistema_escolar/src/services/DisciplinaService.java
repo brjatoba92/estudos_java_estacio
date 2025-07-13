@@ -65,7 +65,17 @@ public class DisciplinaService {
     private void carregar() {
         File file = new File(ARQUIVO);
         if (file.exists()) {
-            disciplinas = JsonUtil.carregarLista(ARQUIVO, new TypeToken<List<Disciplina>>() {}.getType());
+            try {
+                disciplinas = JsonUtil.carregarLista(ARQUIVO, new TypeToken<List<Disciplina>>() {}.getType());
+                if (disciplinas == null) {
+                    disciplinas = new ArrayList<>();
+                }
+            } catch (Exception e) {
+                System.err.println("Erro ao carregar arquivo de disciplinas. Criando nova lista.");
+                disciplinas = new ArrayList<>();
+                // Remover arquivo corrompido
+                file.delete();
+            }
         } else {
             disciplinas = new ArrayList<>();
         }
@@ -125,8 +135,13 @@ public class DisciplinaService {
                     String codigoRemove = scanner.nextLine();
                     remover(codigoRemove);
                     break;
-                case 0 : System.out.println("Voltando..."); break;
-                default : System.out.println("⚠️ Opção inválida!");
+                    
+                case 0 : 
+                    System.out.println("Voltando ao menu principal...");
+                    break;
+
+                default:
+                    System.out.println("Opção inválida!");
             }
         } while (opcao != 0);
     }

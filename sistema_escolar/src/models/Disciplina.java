@@ -1,9 +1,14 @@
 package models;
 
+import com.google.gson.annotations.Expose;
+
 public class Disciplina {
     // Atributos
+    @Expose
     private String codigoCadastro;
+    @Expose
     private String nomeCadastro;
+    @Expose
     private int cargaHoraria; // em horas
 
     // Construtor

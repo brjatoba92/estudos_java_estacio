@@ -1,20 +1,20 @@
 [
   {
-    "nome": "Bruno Jatobá",
-    "disciplina": "Calculo 2",
-    "matricula": "0001",
-    "turmas": []
+    "nome": "Bruno Jatoba",
+    "disciplina": "Calculo 1",
+    "matricula": "PROF01",
+    "valorHora": 60.0
   },
   {
     "nome": "Rodrigo Lins",
     "disciplina": "Climatologia",
-    "matricula": "0002",
-    "turmas": []
+    "matricula": "PROF02",
+    "valorHora": 50.0
   },
   {
-    "nome": "Marcelo Lopes Jr",
-    "disciplina": "Agrometeorologia",
-    "matricula": "0003",
-    "turmas": []
+    "nome": "Marcelo Lopes",
+    "disciplina": "Calculo 2",
+    "matricula": "PROF03",
+    "valorHora": 50.0
   }
 ]
