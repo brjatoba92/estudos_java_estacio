@@ -66,8 +66,27 @@ public class TurmaService {
     private void carregar() {
         File file = new File(ARQUIVO);
         if (file.exists()) {
-            List<Turma> turmasList = JsonUtil.carregarLista(ARQUIVO, new com.google.gson.reflect.TypeToken<List<Turma>>(){}.getType());
-            turmas = turmasList != null ? turmasList : new ArrayList<>();
+            try {
+                List<Turma> turmasList = JsonUtil.carregarLista(ARQUIVO, new com.google.gson.reflect.TypeToken<List<Turma>>(){}.getType());
+                turmas = turmasList != null ? turmasList : new ArrayList<>();
+                
+                // Restaurar referências dos professores
+                ProfessorService professorService = new ProfessorService();
+                for (Turma turma : turmas) {
+                    if (turma.getMatriculaProfessor() != null) {
+                        Professor professor = professorService.buscarPorMatricula(turma.getMatriculaProfessor());
+                        if (professor != null) {
+                            turma.setProfessorResponsavel(professor);
+                            professor.adicionarTurma(turma);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                System.err.println("Erro ao carregar arquivo de turmas. Criando nova lista.");
+                turmas = new ArrayList<>();
+                // Remover arquivo corrompido
+                file.delete();
+            }
         } else {
             turmas = new ArrayList<>();
         }
@@ -97,10 +116,15 @@ public class TurmaService {
                     String serie = scanner.nextLine();
                     System.out.print("Matrícula do Professor Responsável: ");
                     String matriculaProf = scanner.nextLine();
+                    System.out.print("Carga horária (horas por semana): ");
+                    int cargaHoraria = Integer.parseInt(scanner.nextLine());
 
                     Professor professor = professorService.buscarPorMatricula(matriculaProf);
                     if (professor != null) {
-                        cadastrar(new Turma(codigo, serie, professor));
+                        Turma novaTurma = new Turma(codigo, serie, professor, cargaHoraria);
+                        cadastrar(novaTurma);
+                        professor.adicionarTurma(novaTurma);
+                        professorService.salvar(); // Salvar as mudanças do professor
                     } else {
                         System.out.println("\u26A0 Professor não encontrado. Turma não cadastrada.");
                     }
@@ -141,9 +165,8 @@ public class TurmaService {
                     System.out.println("Voltando ao menu principal...");
                     break;
 
-                default : 
+                default:
                     System.out.println("Opção inválida!");
-                    break;
             }
         } while (opcao != 0);
     }

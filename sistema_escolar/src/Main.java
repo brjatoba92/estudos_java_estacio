@@ -26,12 +26,23 @@ public class Main {
             opcao = Integer.parseInt(scanner.nextLine());
 
             switch (opcao) {
-                case 1 : alunoService.menuInterativo();
-                case 2 : professorService.menuInterativo();
-                case 3 : turmaService.menuInterativo();
-                case 4 : disciplinaService.menuInterativo();
-                case 0 : System.out.println("Encerrando o sistema...");
-                default : System.out.println("⚠️ Opção inválida!");
+                case 1 : 
+                    alunoService.menuInterativo();
+                    break;
+                case 2 : 
+                    professorService.menuInterativo();
+                    break;
+                case 3 : 
+                    turmaService.menuInterativo();
+                    break;
+                case 4 : 
+                    disciplinaService.menuInterativo();
+                    break;
+                case 0 : 
+                    System.out.println("Encerrando o sistema...");
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
             }
         } while (opcao != 0);
     }

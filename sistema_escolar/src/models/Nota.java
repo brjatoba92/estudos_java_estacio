@@ -1,7 +1,11 @@
 package models;
 
+import com.google.gson.annotations.Expose;
+
 public class Nota {
+    @Expose
     private double valor;
+    @Expose
     private Prova prova;
 
     // Construtor

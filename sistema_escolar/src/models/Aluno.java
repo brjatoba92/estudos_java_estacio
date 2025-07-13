@@ -1,13 +1,18 @@
 package models;
 
+import com.google.gson.annotations.Expose;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Aluno {
+    @Expose
     private String nome;
+    @Expose
     private String matricula;
+    @Expose
     private String dataNascimento;
     private transient Turma turma;
+    @Expose
     private List<Nota> notas;
 
     public Aluno(String nome, String matricula, String dataNascimento) {

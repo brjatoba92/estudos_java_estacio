@@ -1,20 +1,28 @@
 [
   {
-    "nome": "Klenio Durval",
-    "matricula": "0001",
-    "dataNascimento": "2015-07-03",
-    "notas": []
+    "nome": "Lucas Albuquerque",
+    "matricula": "AL0001",
+    "dataNascimento": "2004-05-14",
+    "notas": [
+      {
+        "valor": 6.0,
+        "prova": {
+          "descricao": "AV1",
+          "disciplina": {
+            "codigoCadastro": "MET01",
+            "nomeCadastro": "Calculo 1",
+            "cargaHoraria": 220
+          },
+          "data": "2025-07-10",
+          "peso": 2.0
+        }
+      }
+    ]
   },
   {
-    "nome": "Jaime Vilela",
-    "matricula": "0002",
-    "dataNascimento": "2004-10-21",
-    "notas": []
-  },
-  {
-    "nome": "Bruno Jr Aragão Jatobá",
-    "matricula": "0003",
-    "dataNascimento": "2035-08-05",
+    "nome": "Carla Tenorio",
+    "matricula": "AL0002",
+    "dataNascimento": "2006-01-05",
     "notas": []
   }
 ]

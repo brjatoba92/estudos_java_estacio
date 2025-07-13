@@ -1,11 +1,16 @@
 package models;
 
+import com.google.gson.annotations.Expose;
 import java.time.LocalDate;
 
 public class Prova {
+    @Expose
     private String descricao;
+    @Expose
     private Disciplina disciplina;
+    @Expose
     private LocalDate data;
+    @Expose
     private double peso;
 
     public Prova(String descricao, Disciplina disciplina, LocalDate data, double peso) {
