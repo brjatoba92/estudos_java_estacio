@@ -1,38 +1,14 @@
 [
   {
-    "nome": "Bruno Jatobá",
-    "disciplina": "Matemática 1 para Meteorologia",
-    "matricula": "PROF01",
-    "valorHora": 50.0
-  },
-  {
-    "nome": "Rodrigo Lins",
+    "nome": "Rodirigo Lins",
     "disciplina": "Climatologia",
+    "matricula": "PROF01",
+    "valorHora": 0.0
+  },
+  {
+    "nome": "Bruno Jatobá",
+    "disciplina": "CAlculo 1",
     "matricula": "PROF02",
-    "valorHora": 50.0
-  },
-  {
-    "nome": "Paulo Gomes Fausto",
-    "disciplina": "Introdução à Computação",
-    "matricula": "PROF03",
-    "valorHora": 55.0
-  },
-  {
-    "nome": "Gustavo Moura",
-    "disciplina": "Instrumentos",
-    "matricula": "PROF04",
-    "valorHora": 50.0
-  },
-  {
-    "nome": "Ricardo Lima",
-    "disciplina": "Tecnicas de Midas",
-    "matricula": "PROF05",
-    "valorHora": 45.0
-  },
-  {
-    "nome": "Alex Dimas",
-    "disciplina": "Fundamentos da Matematica",
-    "matricula": "PROF06",
-    "valorHora": 50.0
+    "valorHora": 0.0
   }
 ]

@@ -8,7 +8,7 @@ SQLITE_JAR=lib/sqlite-jdbc-3.50.2.0.jar
 mkdir -p bin
 
 # Compila os arquivos .java com suporte à biblioteca Gson
-javac -cp ".:$GSON_JAR:$SQLITE_JAR" -d bin src/util/*.java src/models/*.java src/services/*.java src/dao/*.java src/Main.java
+javac -cp ".:$GSON_JAR:$SQLITE_JAR" -d bin src/util/*.java src/models/*.java src/services/*.java src/dao/*.java  src/gui/*.java src/Main.java
 
 # Executa o programa principal com a biblioteca no classpath
 cd bin
