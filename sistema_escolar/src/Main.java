@@ -6,12 +6,18 @@ import dao.AlunoDAO;
 import dao.ProfessorDAO;
 import dao.DisciplinaDAO;
 import dao.TurmaDAO;
+import gui.MainFrame;
 
 import java.util.Scanner;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        // Executar interface gráfica
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            new MainFrame();
+        });
+        
         // Inicializar tabelas do banco de dados
         System.out.println("Inicializando banco de dados...");
         AlunoDAO alunoDAO = new AlunoDAO();
