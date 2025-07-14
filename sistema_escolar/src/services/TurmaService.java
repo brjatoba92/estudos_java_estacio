@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import models.Professor;
 import models.Turma;
 import util.JsonUtil;
+import dao.TurmaDAO;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,7 +22,10 @@ public class TurmaService {
     public void cadastrar(Turma turma) {
         turmas.add(turma);
         salvar();
-        System.out.println("\u2705 Turma cadastrada com sucesso!");
+        // Persistência em SQLite
+        TurmaDAO dao = new TurmaDAO();
+        dao.inserir(turma);
+        System.out.println("\u2705 Turma cadastrada com sucesso (JSON e SQLite)!");
     }
 
     public List<Turma> listarTodas() {
@@ -37,10 +41,13 @@ public class TurmaService {
         return null;
     }
 
-    public void atualizar(String codigo, String novaSerie) {
-        Turma turma = buscarPorCodigo(codigo);
+    public void atualizar(String codigoAntigo, String novoCodigo, String novaSerie, Professor novoProfessor, int novaCargaHoraria) {
+        Turma turma = buscarPorCodigo(codigoAntigo);
         if (turma != null) {
-            turma = new Turma(codigo, novaSerie, turma.getProfessorResponsavel());
+            turma.setCodigo(novoCodigo);
+            turma.setSerie(novaSerie);
+            turma.setProfessorResponsavel(novoProfessor);
+            turma.setCargaHoraria(novaCargaHoraria);
             salvar();
             System.out.println("\u2705 Turma atualizada com sucesso!");
         } else {
@@ -147,11 +154,53 @@ public class TurmaService {
                 
 
                 case 4 :
-                    System.out.print("Código: ");
+                    System.out.print("Código da turma a atualizar: ");
                     String codigoBusca4 = scanner.nextLine();
-                    System.out.print("Nova Série: ");
+                    Turma turmaParaAtualizar = buscarPorCodigo(codigoBusca4);
+                    if (turmaParaAtualizar == null) {
+                        System.out.println("\u26A0 Turma não encontrada!");
+                        break;
+                    }
+                    System.out.print("Novo código (ou Enter para manter: " + turmaParaAtualizar.getCodigo() + "): ");
+                    String novoCodigo = scanner.nextLine();
+                    if (novoCodigo.trim().isEmpty()) {
+                        novoCodigo = turmaParaAtualizar.getCodigo();
+                    }
+                    System.out.print("Nova série (ou Enter para manter: " + turmaParaAtualizar.getSerie() + "): ");
                     String novaSerie = scanner.nextLine();
-                    atualizar(codigoBusca4, novaSerie);
+                    if (novaSerie.trim().isEmpty()) {
+                        novaSerie = turmaParaAtualizar.getSerie();
+                    }
+                    
+                    // Selecionar novo professor
+                    System.out.println("Professores disponíveis:");
+                    List<Professor> professores = professorService.listarTodos();
+                    for (int i = 0; i < professores.size(); i++) {
+                        Professor prof = professores.get(i);
+                        System.out.println((i+1) + " - " + prof.toString());
+                    }
+                    System.out.print("Escolha o número do novo professor (ou 0 para manter o atual): ");
+                    String escolhaProf = scanner.nextLine();
+                    Professor novoProfessor = turmaParaAtualizar.getProfessorResponsavel(); // manter atual por padrão
+                    if (!escolhaProf.equals("0")) {
+                        try {
+                            int escolha = Integer.parseInt(escolhaProf);
+                            if (escolha > 0 && escolha <= professores.size()) {
+                                novoProfessor = professores.get(escolha - 1);
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Opção inválida, mantendo professor atual.");
+                        }
+                    }
+                    
+                    System.out.print("Nova carga horária (ou Enter para manter: " + turmaParaAtualizar.getCargaHoraria() + "h): ");
+                    String cargaHorariaStr = scanner.nextLine();
+                    int novaCargaHoraria = turmaParaAtualizar.getCargaHoraria();
+                    if (!cargaHorariaStr.trim().isEmpty()) {
+                        novaCargaHoraria = Integer.parseInt(cargaHorariaStr);
+                    }
+                    
+                    atualizar(codigoBusca4, novoCodigo, novaSerie, novoProfessor, novaCargaHoraria);
                     break;
                 
 

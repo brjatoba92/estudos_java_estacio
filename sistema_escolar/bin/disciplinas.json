@@ -43,5 +43,15 @@
     "codigoCadastro": "METR099",
     "nomeCadastro": "Fundamentos da Matematica",
     "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "MET145",
+    "nomeCadastro": "Meteorologia Sinótica 1",
+    "cargaHoraria": 90
+  },
+  {
+    "codigoCadastro": "MET150",
+    "nomeCadastro": "Sinotica 2",
+    "cargaHoraria": 90
   }
 ]

@@ -43,8 +43,16 @@ public class Professor {
         return nome;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public String getDisciplina() {
         return disciplina;
+    }
+
+    public void setDisciplina(String disciplina) {
+        this.disciplina = disciplina;
     }
 
     public List<Turma> getTurmas() {
@@ -61,14 +69,6 @@ public class Professor {
 
     public void setValorHora(double valorHora) {
         this.valorHora = valorHora;
-    }
-
-    public void setDisciplina(String disciplina) {
-        this.disciplina = disciplina;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public void adicionarTurma(Turma turma) {
@@ -117,7 +117,6 @@ public class Professor {
         String nomeProf = nome != null ? nome : "Nome não informado";
         String matriculaProf = matricula != null ? matricula : "Matrícula não informada";
         String disciplinaProf = disciplina != null ? disciplina : "Disciplina não informada";
-        
         return "Prof. " + nomeProf + " (" + matriculaProf + ") - " + disciplinaProf + 
                " | R$ " + String.format("%.2f", valorHora) + "/h" +
                " | Turmas: " + (turmas != null ? turmas.size() : 0);
