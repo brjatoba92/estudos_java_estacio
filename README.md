@@ -14,24 +14,104 @@ Este é um projeto educacional de um **Sistema Escolar**, desenvolvido com o obj
 
 ---
 
-## 🏗️ Estrutura do projeto
+## 📁 **ESTRUTURA ATUAL DO PROJETO**
 
 ```
 sistema_escolar/
-├── bin/
-│ ├── models/  (Aluno.class, Disciplina.class, ...)
-│ ├── Main.class
-├── src/
-│ ├── models/
-│ │ ├── Aluno.java
-│ │ ├── Professor.java
-│ │ ├── Turma.java
-│ │ ├── Disciplina.java
-│ │ ├── Prova.java
-│ │ └── Nota.java
-│ └── main.java
-├── compile.sh (executar os comandos)
+├── 📁 src/                          # Código fonte
+│   ├── 📄 Main.java                 # Classe principal com interface gráfica e console
+│   ├── 📄 DataImporter.java         # Importador de dados iniciais
+│   ├── 📁 gui/                      # Interface gráfica
+│   │   ├── 📄 MainFrame.java        # Janela principal do sistema
+│   │   ├── 📄 AlunoFrame.java       # Interface de gerenciamento de alunos
+│   │   └── 📄 ProfessorFrame.java   # Interface de gerenciamento de professores
+│   ├── 📁 services/                 # Camada de serviços (lógica de negócio)
+│   │   ├── 📄 AlunoService.java     # Serviços para alunos
+│   │   ├── 📄 ProfessorService.java # Serviços para professores
+│   │   ├── 📄 TurmaService.java     # Serviços para turmas
+│   │   ├── 📄 DisciplinaService.java # Serviços para disciplinas
+│   │   └── 📄 AlunoDBService.java   # Serviços de banco para alunos
+│   ├── 📁 dao/                      # Camada de acesso a dados (DAO)
+│   │   ├── 📄 AlunoDAO.java         # Acesso a dados de alunos
+│   │   ├── 📄 ProfessorDAO.java     # Acesso a dados de professores
+│   │   ├── 📄 TurmaDAO.java         # Acesso a dados de turmas
+│   │   └── 📄 DisciplinaDAO.java    # Acesso a dados de disciplinas
+│   ├── 📁 models/                   # Modelos de dados (entidades)
+│   │   ├── 📄 Aluno.java           # Modelo de aluno
+│   │   ├── 📄 Professor.java       # Modelo de professor
+│   │   ├── 📄 Turma.java           # Modelo de turma
+│   │   ├── 📄 Disciplina.java      # Modelo de disciplina
+│   │   ├── 📄 Escola.java          # Modelo de escola
+│   │   ├── 📄 Nota.java            # Modelo de nota
+│   │   └── 📄 Prova.java           # Modelo de prova
+│   └── 📁 util/                     # Utilitários
+│       ├── 📄 JsonUtil.java        # Utilitário para JSON
+│       ├── 📄 Database.java        # Configuração de banco
+│       ├── 📄 DatabaseUtil.java    # Utilitários de banco
+│       ├── 📄 LocalDateAdapter.java # Adaptador para datas
+│       └── 📄 DataUtil.java        # Utilitários de data (vazio)
+├── 📁 bin/                          # Arquivos compilados (.class)
+│   ├── 📄 Main.class               # Classe principal compilada
+│   ├──  DataImporter.class       # Importador compilado
+│   ├── 📄 DataImporter$*.class     # Classes internas do importador
+│   ├── 📁 gui/                     # Interface gráfica compilada
+│   │   ├── 📄 MainFrame.class
+│   │   ├──  AlunoFrame.class
+│   │   └── 📄 ProfessorFrame.class
+│   ├── 📁 services/                # Serviços compilados
+│   │   ├──  AlunoService.class
+│   │   ├── 📄 ProfessorService.class
+│   │   ├──  TurmaService.class
+│   │   ├── 📄 DisciplinaService.class
+│   │   └── 📄 AlunoDBService.class
+│   ├── 📁 dao/                     # DAOs compilados
+│   │   ├──  AlunoDAO.class
+│   │   ├──  ProfessorDAO.class
+│   │   ├──  TurmaDAO.class
+│   │   └── 📄 DisciplinaDAO.class
+│   ├── 📁 models/                  # Modelos compilados
+│   │   ├── 📄 Aluno.class
+│   │   ├── 📄 Professor.class
+│   │   ├── 📄 Turma.class
+│   │   ├──  Disciplina.class
+│   │   ├──  Escola.class
+│   │   ├──  Nota.class
+│   │   └── 📄 Prova.class
+│   └── 📁 util/                    # Utilitários compilados
+│       ├── 📄 JsonUtil.class
+│       ├── 📄 Database.class
+│       ├──  DatabaseUtil.class
+│       └── 📄 LocalDateAdapter.class
+├── 📁 lib/                         # Bibliotecas externas
+│   └── 📄 gson-2.10.1.jar         # Biblioteca Gson para JSON
+├── 📄 compile.sh                   # Script de compilação
+└── 📁 .vscode/                     # Configurações do VS Code
 ```
+
+## 🏗️ **ARQUITETURA DO SISTEMA**
+
+### **Padrão de Arquitetura:**
+- **MVC (Model-View-Controller)** com separação clara de responsabilidades
+- **DAO Pattern** para acesso a dados
+- **Service Layer** para lógica de negócio
+- **GUI Layer** para interface gráfica
+
+### **Camadas:**
+1. **📱 GUI (View):** Interface gráfica com Swing
+2. **⚙️ Services (Controller):** Lógica de negócio e controle
+3. **🗄️ DAO (Data Access):** Acesso a dados e persistência
+4. **📊 Models (Model):** Entidades e modelos de dados
+5. **🔧 Utils:** Utilitários e helpers
+
+### **Funcionalidades:**
+- ✅ Interface gráfica funcional
+- ✅ Menu de console interativo
+- ✅ Persistência em JSON
+- ✅ Gerenciamento de alunos, professores, turmas e disciplinas
+- ✅ Estrutura organizada em pacotes
+- ✅ Compilação com dependências externas
+
+Esta estrutura está pronta para ser copiada e colada no seu README!
 
 ---
 
