@@ -67,6 +67,14 @@ public class Turma {
         this.matriculaProfessor = professor != null ? professor.getMatricula() : null;
     }
 
+    public void setSerie(String serie) {
+        this.serie = serie;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
     public void adicionarAluno(Aluno aluno) {
         if (!alunos.contains(aluno)) {
             alunos.add(aluno);
@@ -86,14 +94,17 @@ public class Turma {
 
     @Override
     public String toString() {
+        String codigoTurma = codigo != null ? codigo : "Código não informado";
+        String serieTurma = serie != null ? serie : "Série não informada";
         String professorNome = "Não atribuído";
+        
         if (professorResponsavel != null && professorResponsavel.getNome() != null) {
             professorNome = professorResponsavel.getNome();
         }
         
-        return "Turma " + codigo + " - " + serie + 
+        return "Turma " + codigoTurma + " - " + serieTurma + 
                " | Professor: " + professorNome + 
                " | Carga Horária: " + cargaHoraria + "h" +
-               " | Alunos: " + alunos.size();
+               " | Alunos: " + (alunos != null ? alunos.size() : 0);
     }
 }

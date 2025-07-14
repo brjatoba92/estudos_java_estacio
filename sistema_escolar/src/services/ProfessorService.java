@@ -5,6 +5,7 @@ import models.Professor;
 import models.Disciplina;
 import services.DisciplinaService;
 import util.JsonUtil;
+import dao.ProfessorDAO;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -22,7 +23,10 @@ public class ProfessorService {
     public void cadastrar(Professor professor) {
         professores.add(professor);
         salvar();
-        System.out.println("\u2705 Professor cadastrado com sucesso!");
+        // Persistência em SQLite
+        ProfessorDAO dao = new ProfessorDAO();
+        dao.inserir(professor);
+        System.out.println("\u2705 Professor cadastrado com sucesso (JSON e SQLite)!");
     }
 
     public List<Professor> listarTodos() {
@@ -121,17 +125,18 @@ public class ProfessorService {
 
             switch (opcao) {
                 case 1 :
+                    System.out.println("Matrículas já cadastradas:");
+                    for (Professor prof : listarTodos()) {
+                        System.out.println("- " + prof.getMatricula() + " | " + prof.getNome());
+                    }
                     System.out.print("Nome: ");
                     String nome = scanner.nextLine();
                     System.out.print("Matrícula: ");
                     String matricula = scanner.nextLine();
-                    
-                    // Selecionar disciplina
                     Disciplina disciplinaSelecionada = selecionarDisciplina(scanner);
                     if (disciplinaSelecionada == null) {
                         break;
                     }
-                    
                     System.out.print("Valor por hora: ");
                     double valorHora = Double.parseDouble(scanner.nextLine());
                     cadastrar(new Professor(nome, matricula, disciplinaSelecionada.getNome(), valorHora));
@@ -155,18 +160,53 @@ public class ProfessorService {
                 case 4 :
                     System.out.print("Matrícula: ");
                     String matAtualiza = scanner.nextLine();
-                    System.out.print("Novo nome: ");
-                    String novoNome = scanner.nextLine();
-                    
-                    // Selecionar nova disciplina
-                    Disciplina novaDisciplina = selecionarDisciplina(scanner);
-                    if (novaDisciplina == null) {
+                    Professor professor = buscarPorMatricula(matAtualiza);
+                    if (professor == null) {
+                        System.out.println("\u26A0 Professor não encontrado!");
                         break;
                     }
+                    System.out.print("Novo nome (ou Enter para manter: " + professor.getNome() + "): ");
+                    String novoNome = scanner.nextLine();
+                    if (novoNome.trim().isEmpty()) novoNome = professor.getNome();
                     
-                    System.out.print("Novo valor por hora: ");
-                    double novoValorHora = Double.parseDouble(scanner.nextLine());
-                    atualizar(matAtualiza, novoNome, novaDisciplina.getNome(), novoValorHora);
+                    System.out.print("Nova disciplina (ou Enter para manter: " + professor.getDisciplina() + "): ");
+                    System.out.println("Disciplinas disponíveis:");
+                    DisciplinaService disciplinaService = new DisciplinaService();
+                    List<Disciplina> disciplinas = disciplinaService.listarTodas();
+                    for (int i = 0; i < disciplinas.size(); i++) {
+                        System.out.println((i+1) + " - " + disciplinas.get(i));
+                    }
+                    String novaDisciplinaNome = scanner.nextLine();
+                    Disciplina novaDisciplina = null;
+                    if (novaDisciplinaNome.trim().isEmpty()) {
+                        // Manter disciplina atual
+                        novaDisciplina = new Disciplina("", professor.getDisciplina(), 0);
+                    } else {
+                        // Buscar disciplina pelo nome
+                        for (Disciplina d : disciplinas) {
+                            if (d.getNome().equalsIgnoreCase(novaDisciplinaNome)) {
+                                novaDisciplina = d;
+                                break;
+                            }
+                        }
+                        if (novaDisciplina == null) {
+                            System.out.println("\u26A0 Disciplina não encontrada!");
+                            break;
+                        }
+                    }
+                    
+                    System.out.print("Novo valor por hora (ou Enter para manter: " + String.format("%.2f", professor.getValorHora()) + "): ");
+                    String valorHoraStr = scanner.nextLine();
+                    double novoValorHora = professor.getValorHora();
+                    if (!valorHoraStr.trim().isEmpty()) {
+                        novoValorHora = Double.parseDouble(valorHoraStr);
+                    }
+                    
+                    professor.setNome(novoNome);
+                    professor.setDisciplina(novaDisciplina.getNome());
+                    professor.setValorHora(novoValorHora);
+                    salvar();
+                    System.out.println("\u2705 Professor atualizado com sucesso!");
                     break;
                 case 5 :
                     System.out.print("Matrícula: ");
@@ -222,5 +262,33 @@ public class ProfessorService {
         int escolha = Integer.parseInt(scanner.nextLine());
         Disciplina disciplina = disciplinas.get(escolha - 1);
         return disciplina;
+    }
+
+    private List<String> selecionarMultiplasDisciplinas(Scanner scanner) {
+        DisciplinaService disciplinaService = new DisciplinaService();
+        List<Disciplina> disciplinas = disciplinaService.listarTodas();
+        List<String> selecionadas = new ArrayList<>();
+        if (disciplinas.isEmpty()) {
+            System.out.println("Nenhuma disciplina cadastrada. Cadastre uma disciplina primeiro.");
+            return selecionadas;
+        }
+        System.out.println("Disciplinas disponíveis:");
+        for (int i = 0; i < disciplinas.size(); i++) {
+            System.out.println((i+1) + " - " + disciplinas.get(i));
+        }
+        System.out.print("Digite os números das disciplinas separadas por vírgula (ex: 1,3,4): ");
+        String entrada = scanner.nextLine();
+        String[] indices = entrada.split(",");
+        for (String idx : indices) {
+            try {
+                int i = Integer.parseInt(idx.trim()) - 1;
+                if (i >= 0 && i < disciplinas.size()) {
+                    selecionadas.add(disciplinas.get(i).getNome());
+                }
+            } catch (NumberFormatException e) {
+                // Ignorar entradas inválidas
+            }
+        }
+        return selecionadas;
     }
 }

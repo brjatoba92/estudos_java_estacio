@@ -10,6 +10,7 @@ import services.TurmaService;
 import services.DisciplinaService;
 
 import util.JsonUtil;
+import dao.AlunoDAO;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,7 +31,10 @@ public class AlunoService {
     public void cadastrar(Aluno aluno) {
         alunos.add(aluno);
         salvar();
-        System.out.println("\u2705 Aluno cadastrado com sucesso!");
+        // Persistência em SQLite
+        AlunoDAO dao = new AlunoDAO();
+        dao.inserir(aluno);
+        System.out.println("\u2705 Aluno cadastrado com sucesso (JSON e SQLite)!");
     }
 
     public List<Aluno> listarTodos() {
@@ -48,12 +52,16 @@ public class AlunoService {
         return null;
     }
 
-    public void atualizar(String matricula, String novoNome, String novaDataNascimento) {
-        Aluno aluno = buscarPorMatricula(matricula);
+    public void atualizar(String matriculaAntiga, String novaMatricula, String novoNome, String novaDataNascimento) {
+        Aluno aluno = buscarPorMatricula(matriculaAntiga);
         if (aluno != null) {
+            aluno.setMatricula(novaMatricula);
             aluno.setNome(novoNome);
             aluno.setDataNascimento(novaDataNascimento);
             salvar();
+            // Atualizar no banco de dados
+            AlunoDAO dao = new AlunoDAO();
+            dao.atualizar(matriculaAntiga, novaMatricula, novoNome, novaDataNascimento);
             System.out.println("\u2705 Aluno atualizado com sucesso!");
         } else {
             System.out.println("\u26A0 Aluno não encontrado!");
@@ -112,6 +120,7 @@ public class AlunoService {
             System.out.println("6 - Adicionar nota");
             System.out.println("7 - Calcular médias");
             System.out.println("8 - Atualizar médias de todos os alunos");
+            System.out.println("9 - Listar alunos do banco de dados");
             System.out.println("0 - Sair");
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
@@ -152,13 +161,23 @@ public class AlunoService {
                     break;
 
                 case 4:
-                    System.out.print("Matrícula: ");
+                    System.out.print("Matrícula atual: ");
                     String matAtualizar = scanner.nextLine();
-                    System.out.print("Novo nome: ");
+                    Aluno alunoAtualizar = buscarPorMatricula(matAtualizar);
+                    if (alunoAtualizar == null) {
+                        System.out.println("\u26A0 Aluno não encontrado!");
+                        break;
+                    }
+                    System.out.print("Nova matrícula (ou Enter para manter: " + alunoAtualizar.getMatricula() + "): ");
+                    String novaMatricula = scanner.nextLine();
+                    if (novaMatricula.trim().isEmpty()) novaMatricula = alunoAtualizar.getMatricula();
+                    System.out.print("Novo nome (ou Enter para manter: " + alunoAtualizar.getNome() + "): ");
                     String novoNome = scanner.nextLine();
-                    System.out.print("Nova data de nascimento: ");
+                    if (novoNome.trim().isEmpty()) novoNome = alunoAtualizar.getNome();
+                    System.out.print("Nova data de nascimento (ou Enter para manter: " + alunoAtualizar.getDataNascimento() + "): ");
                     String novaData = scanner.nextLine();
-                    atualizar(matAtualizar, novoNome, novaData);
+                    if (novaData.trim().isEmpty()) novaData = alunoAtualizar.getDataNascimento();
+                    atualizar(matAtualizar, novaMatricula, novoNome, novaData);
                     break;
 
                 case 5:
@@ -168,6 +187,10 @@ public class AlunoService {
                     break;
                 
                 case 6:
+                    System.out.println("Matrículas dos alunos cadastrados:");
+                    for (Aluno a : listarTodos()) {
+                        System.out.println("- " + a.getMatricula() + " | " + a.getNome());
+                    }
                     System.out.print("Matrícula do aluno: ");
                     String matAluno = scanner.nextLine();
                     aluno = buscarPorMatricula(matAluno);
@@ -228,6 +251,10 @@ public class AlunoService {
                 
                 case 8:
                     atualizarMediasTodosAlunos();
+                    break;
+                
+                case 9:
+                    listarAlunosDoBanco();
                     break;
                 
                 case 0 : 
@@ -436,5 +463,18 @@ public class AlunoService {
         int escolha = Integer.parseInt(scanner.nextLine());
         Disciplina disciplina = disciplinas.get(escolha - 1);
         return disciplina;
+    }
+
+    public void listarAlunosDoBanco() {
+        System.out.println("\n=== ALUNOS NO BANCO DE DADOS ===");
+        AlunoDAO dao = new AlunoDAO();
+        List<Aluno> alunosBanco = dao.listarTodos();
+        if (alunosBanco.isEmpty()) {
+            System.out.println("Nenhum aluno encontrado no banco de dados.");
+        } else {
+            for (Aluno aluno : alunosBanco) {
+                System.out.println("- " + aluno.getMatricula() + " | " + aluno.getNome() + " | " + aluno.getDataNascimento());
+            }
+        }
     }
 }

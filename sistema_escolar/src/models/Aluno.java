@@ -89,6 +89,10 @@ public class Aluno {
         this.dataNascimento = dataNascimento;
     }
 
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
+    }
+
     public void adicionarNota(Nota nota) {
         this.notas.add(nota);
         atualizarMedias();

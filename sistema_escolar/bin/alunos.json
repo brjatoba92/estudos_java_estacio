@@ -55,12 +55,39 @@
           "data": "2025-09-21",
           "peso": 15.0
         }
+      },
+      {
+        "valor": 7.0,
+        "prova": {
+          "descricao": "AV1",
+          "disciplina": {
+            "codigoCadastro": "METR134",
+            "nomeCadastro": "Climatologia",
+            "cargaHoraria": 72
+          },
+          "data": "2025-08-30",
+          "peso": 2.0
+        }
+      },
+      {
+        "valor": 6.0,
+        "prova": {
+          "descricao": "AV2",
+          "disciplina": {
+            "codigoCadastro": "METR134",
+            "nomeCadastro": "Climatologia",
+            "cargaHoraria": 72
+          },
+          "data": "2025-11-20",
+          "peso": 1.5
+        }
       }
     ],
-    "mediaGeral": 9.25,
+    "mediaGeral": 8.851063829787234,
     "mediasPorDisciplina": {
       "MET01": 7.428571428571429,
-      "MET03": 9.636363636363637
+      "MET03": 9.636363636363637,
+      "METR134": 6.571428571428571
     },
     "statusAprovacao": "APROVADO"
   },
@@ -68,14 +95,30 @@
     "nome": "Alicia Felix",
     "matricula": "AL0002",
     "dataNascimento": "2012-02-05",
-    "notas": [],
-    "mediaGeral": 0.0,
-    "mediasPorDisciplina": {},
-    "statusAprovacao": "SEM NOTAS"
+    "notas": [
+      {
+        "valor": 8.0,
+        "prova": {
+          "descricao": "AV1",
+          "disciplina": {
+            "codigoCadastro": "METR100",
+            "nomeCadastro": "Matemática 1 para Meteorologia",
+            "cargaHoraria": 72
+          },
+          "data": "2025-05-29",
+          "peso": 1.5
+        }
+      }
+    ],
+    "mediaGeral": 8.0,
+    "mediasPorDisciplina": {
+      "METR100": 8.0
+    },
+    "statusAprovacao": "APROVADO"
   },
   {
     "nome": "Nuno Moreira",
-    "matricula": "AL003",
+    "matricula": "AL0003",
     "dataNascimento": "2014-06-20",
     "notas": [],
     "mediaGeral": 0.0,
@@ -83,9 +126,18 @@
     "statusAprovacao": "SEM NOTAS"
   },
   {
-    "nome": "Maria Helsique",
+    "nome": "Rebeca Guimarães Lopes",
     "matricula": "AL0004",
-    "dataNascimento": "2015-07-25",
+    "dataNascimento": "2016-05-25",
+    "notas": [],
+    "mediaGeral": 0.0,
+    "mediasPorDisciplina": {},
+    "statusAprovacao": "SEM NOTAS"
+  },
+  {
+    "nome": "Jaime Klenio",
+    "matricula": "AL0010",
+    "dataNascimento": "2013-12-31",
     "notas": [],
     "mediaGeral": 0.0,
     "mediasPorDisciplina": {},
