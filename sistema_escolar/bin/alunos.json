@@ -1,112 +1,89 @@
 [
   {
-    "nome": "Gustavo Silva",
-    "matricula": "AL0001",
-    "dataNascimento": "2015-04-06",
-    "notas": [
-      {
-        "valor": 8.0,
-        "prova": {
-          "descricao": "AV1",
-          "disciplina": {
-            "codigoCadastro": "METR101",
-            "nomeCadastro": "Oceanografia física",
-            "cargaHoraria": 72
-          },
-          "data": "2025-04-20",
-          "peso": 2.0
-        }
-      },
-      {
-        "valor": 9.0,
-        "prova": {
-          "descricao": "AV1",
-          "disciplina": {
-            "codigoCadastro": "METR094",
-            "nomeCadastro": "Introdução à Computação",
-            "cargaHoraria": 72
-          },
-          "data": "2025-09-10",
-          "peso": 1.0
-        }
-      },
-      {
-        "valor": 7.0,
-        "prova": {
-          "descricao": "AV2",
-          "disciplina": {
-            "codigoCadastro": "METR101",
-            "nomeCadastro": "Oceanografia física",
-            "cargaHoraria": 72
-          },
-          "data": "2025-07-23",
-          "peso": 1.5
-        }
-      }
-    ],
-    "mediaGeral": 7.888888888888889,
-    "mediasPorDisciplina": {
-      "METR094": 9.0,
-      "METR101": 7.571428571428571
-    },
-    "statusAprovacao": "APROVADO"
+    "nome": "Ana Paula Silva",
+    "matricula": "20230001",
+    "dataNascimento": "1990-03-15",
+    "notas": [],
+    "mediaGeral": 0.0,
+    "mediasPorDisciplina": {},
+    "statusAprovacao": "SEM NOTAS"
   },
   {
-    "nome": "Gabriela Vilela",
-    "matricula": "AL0002",
-    "dataNascimento": "2010-09-21",
-    "notas": [
-      {
-        "valor": 8.0,
-        "prova": {
-          "descricao": "AV1",
-          "disciplina": {
-            "codigoCadastro": "METR094",
-            "nomeCadastro": "Introdução à Computação",
-            "cargaHoraria": 72
-          },
-          "data": "2025-07-14",
-          "peso": 1.0
-        }
-      },
-      {
-        "valor": 8.0,
-        "prova": {
-          "descricao": "AV2",
-          "disciplina": {
-            "codigoCadastro": "METR094",
-            "nomeCadastro": "Introdução à Computação",
-            "cargaHoraria": 72
-          },
-          "data": "2025-11-07",
-          "peso": 1.5
-        }
-      },
-      {
-        "valor": 6.0,
-        "prova": {
-          "descricao": "AV1",
-          "disciplina": {
-            "codigoCadastro": "METR102",
-            "nomeCadastro": "Fundamentos da Física",
-            "cargaHoraria": 72
-          },
-          "data": "2025-03-12",
-          "peso": 1.5
-        }
-      }
-    ],
-    "mediaGeral": 7.25,
-    "mediasPorDisciplina": {
-      "METR094": 8.0,
-      "METR102": 6.0
-    },
-    "statusAprovacao": "APROVADO"
+    "nome": "Bruno Costa Oliveira",
+    "matricula": "20230002",
+    "dataNascimento": "1985-07-22",
+    "notas": [],
+    "mediaGeral": 0.0,
+    "mediasPorDisciplina": {},
+    "statusAprovacao": "SEM NOTAS"
   },
   {
-    "nome": "Rebeca Vales",
-    "matricula": "AL0040",
-    "dataNascimento": "2012-06-12",
+    "nome": "Carla Regina Santos",
+    "matricula": "20230003",
+    "dataNascimento": "1992-11-01",
+    "notas": [],
+    "mediaGeral": 0.0,
+    "mediasPorDisciplina": {},
+    "statusAprovacao": "SEM NOTAS"
+  },
+  {
+    "nome": "Daniel Pereira Lima",
+    "matricula": "20230004",
+    "dataNascimento": "1988-05-10",
+    "notas": [],
+    "mediaGeral": 0.0,
+    "mediasPorDisciplina": {},
+    "statusAprovacao": "SEM NOTAS"
+  },
+  {
+    "nome": "Eduarda Almeida Rocha",
+    "matricula": "20230005",
+    "dataNascimento": "1995-09-28",
+    "notas": [],
+    "mediaGeral": 0.0,
+    "mediasPorDisciplina": {},
+    "statusAprovacao": "SEM NOTAS"
+  },
+  {
+    "nome": "Felipe Souza Costa",
+    "matricula": "20230006",
+    "dataNascimento": "1987-01-03",
+    "notas": [],
+    "mediaGeral": 0.0,
+    "mediasPorDisciplina": {},
+    "statusAprovacao": "SEM NOTAS"
+  },
+  {
+    "nome": "Gabriela Fernanda Gomes",
+    "matricula": "20230007",
+    "dataNascimento": "1993-04-19",
+    "notas": [],
+    "mediaGeral": 0.0,
+    "mediasPorDisciplina": {},
+    "statusAprovacao": "SEM NOTAS"
+  },
+  {
+    "nome": "Henrique Marques Pinto",
+    "matricula": "20230008",
+    "dataNascimento": "1991-08-07",
+    "notas": [],
+    "mediaGeral": 0.0,
+    "mediasPorDisciplina": {},
+    "statusAprovacao": "SEM NOTAS"
+  },
+  {
+    "nome": "Isabela Cristina Dias",
+    "matricula": "20230009",
+    "dataNascimento": "1986-12-14",
+    "notas": [],
+    "mediaGeral": 0.0,
+    "mediasPorDisciplina": {},
+    "statusAprovacao": "SEM NOTAS"
+  },
+  {
+    "nome": "João Victor Barbosa",
+    "matricula": "20230010",
+    "dataNascimento": "1994-06-25",
     "notas": [],
     "mediaGeral": 0.0,
     "mediasPorDisciplina": {},

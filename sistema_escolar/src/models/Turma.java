@@ -13,24 +13,28 @@ public class Turma {
     private String matriculaProfessor;
     @Expose
     private int cargaHoraria;
+    @Expose
+    private String codigoDisciplina;
     private transient Professor professorResponsavel;
     private transient List<Aluno> alunos;
 
-    public Turma(String codigo, String serie, Professor professorResponsavel) {
+    public Turma(String codigo, String serie, Professor professorResponsavel, String codigoDisciplina) {
         this.codigo = codigo;
         this.serie = serie;
         this.professorResponsavel = professorResponsavel;
         this.matriculaProfessor = professorResponsavel != null ? professorResponsavel.getMatricula() : null;
         this.cargaHoraria = 0;
+        this.codigoDisciplina = codigoDisciplina;
         this.alunos = new ArrayList<>();
     }
 
-    public Turma(String codigo, String serie, Professor professorResponsavel, int cargaHoraria) {
+    public Turma(String codigo, String serie, Professor professorResponsavel, int cargaHoraria, String codigoDisciplina) {
         this.codigo = codigo;
         this.serie = serie;
         this.professorResponsavel = professorResponsavel;
         this.matriculaProfessor = professorResponsavel != null ? professorResponsavel.getMatricula() : null;
         this.cargaHoraria = cargaHoraria;
+        this.codigoDisciplina = codigoDisciplina;
         this.alunos = new ArrayList<>();
     }
 
@@ -90,6 +94,13 @@ public class Turma {
         for (Aluno aluno : alunos) {
             System.out.println("- " + aluno.getNome() + " (Matrícula: " + aluno.getMatricula() + ")");
         }
+    }
+
+    public String getCodigoDisciplina() {
+        return codigoDisciplina;
+    }
+    public void setCodigoDisciplina(String codigoDisciplina) {
+        this.codigoDisciplina = codigoDisciplina;
     }
 
     @Override

@@ -13,10 +13,11 @@ import dao.TurmaDAO;
 import java.util.stream.Collectors;
 
 public class ProfessorFrame extends JFrame {
-    private ProfessorService professorService = new ProfessorService();
+    private ProfessorService professorService;
     private DisciplinaService disciplinaService = new DisciplinaService();
 
-    public ProfessorFrame() {
+    public ProfessorFrame(ProfessorService professorService) {
+        this.professorService = professorService;
         setTitle("Gerenciamento de Professores");
         setSize(600, 400);
         setLocationRelativeTo(null);
@@ -35,6 +36,8 @@ public class ProfessorFrame extends JFrame {
         mainPanel.add(createButton("🗑️ Remover Professor", e -> removerProfessor()));
         mainPanel.add(createButton("💰 Relatório Financeiro", e -> relatorioFinanceiro()));
         mainPanel.add(createButton("💵 Quanto Ganhou?", e -> quantoGanhou()));
+        mainPanel.add(createButton("🕒 Horas por Disciplina no Mês", e -> horasPorDisciplina()));
+        mainPanel.add(createButton("✏️ Informar Horas Manualmente por Disciplina", e -> informarHorasPorDisciplinaGUI()));
 
         add(mainPanel, BorderLayout.CENTER);
         setVisible(true);
@@ -339,6 +342,114 @@ public class ProfessorFrame extends JFrame {
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setPreferredSize(new java.awt.Dimension(500, 400));
         JOptionPane.showMessageDialog(this, scrollPane, "Quanto Ganhou", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void horasPorDisciplina() {
+        java.util.List<Professor> professores = professorService.listarTodos();
+        if (professores.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nenhum professor cadastrado.",
+                                        "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String[] opcoes = professores.stream()
+            .map(p -> p.getMatricula() + " - " + p.getNome())
+            .toArray(String[]::new);
+        String selecionado = (String) JOptionPane.showInputDialog(this,
+            "Selecione o professor:", "Horas por Disciplina no Mês",
+            JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
+        if (selecionado == null) return;
+        String matricula = selecionado.split(" - ")[0];
+        Professor professor = professores.stream()
+            .filter(p -> p.getMatricula().equals(matricula))
+            .findFirst().orElse(null);
+        if (professor == null) {
+            JOptionPane.showMessageDialog(this, "Professor não encontrado!",
+                                        "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        // Buscar turmas do professor
+        java.util.List<models.Turma> turmasDoProfessor = professorService.turmaService.listarTurmasPorProfessor(matricula);
+        java.util.Map<String, Integer> horasPorDisciplina = new java.util.HashMap<>();
+        for (models.Turma turma : turmasDoProfessor) {
+            String codDisc = turma.getCodigoDisciplina();
+            int carga = turma.getCargaHoraria();
+            horasPorDisciplina.put(codDisc, horasPorDisciplina.getOrDefault(codDisc, 0) + carga);
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("Horas trabalhadas no mês por disciplina para o professor ")
+          .append(professor.getNome()).append(":\n\n");
+        for (java.util.Map.Entry<String, Integer> entry : horasPorDisciplina.entrySet()) {
+            sb.append("Disciplina: ").append(entry.getKey())
+              .append(" | Horas: ").append(entry.getValue()).append("\n");
+        }
+        JOptionPane.showMessageDialog(this, sb.toString(), "Horas por Disciplina no Mês",
+                                    JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void informarHorasPorDisciplinaGUI() {
+        java.util.List<Professor> professores = professorService.listarTodos();
+        if (professores.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nenhum professor cadastrado.",
+                                        "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String[] opcoes = professores.stream()
+            .map(p -> p.getMatricula() + " - " + p.getNome())
+            .toArray(String[]::new);
+        String selecionado = (String) JOptionPane.showInputDialog(this,
+            "Selecione o professor:", "Informar Horas Manualmente por Disciplina",
+            JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
+        if (selecionado == null) return;
+        String matricula = selecionado.split(" - ")[0];
+        Professor professor = professores.stream()
+            .filter(p -> p.getMatricula().equals(matricula))
+            .findFirst().orElse(null);
+        if (professor == null) {
+            JOptionPane.showMessageDialog(this, "Professor não encontrado!",
+                                        "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        java.util.List<String> disciplinas = professor.getDisciplinas();
+        if (disciplinas.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Professor não possui disciplinas cadastradas.",
+                                        "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        java.util.Map<String, Integer> horasPorDisciplina = new java.util.HashMap<>();
+        java.util.List<JTextField> fields = new java.util.ArrayList<>();
+        Object[] message = new Object[disciplinas.size() * 2];
+        for (int i = 0; i < disciplinas.size(); i++) {
+            String disc = disciplinas.get(i);
+            message[i * 2] = "Disciplina: " + disc + " | Horas:";
+            JTextField field = new JTextField();
+            fields.add(field);
+            message[i * 2 + 1] = field;
+        }
+        int option = JOptionPane.showConfirmDialog(this, message, "Horas por Disciplina",
+                                                  JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            int totalHoras = 0;
+            for (int i = 0; i < disciplinas.size(); i++) {
+                String disc = disciplinas.get(i);
+                int horas = 0;
+                try {
+                    horas = Integer.parseInt(fields.get(i).getText().trim());
+                } catch (NumberFormatException e) {
+                    // Se inválido, mantém 0
+                }
+                horasPorDisciplina.put(disc, horas);
+                totalHoras += horas;
+            }
+            professor.setHorasPorDisciplinaMes(horasPorDisciplina);
+            professor.setHorasTrabalhadasMes(totalHoras);
+            double valorTotal = professor.getValorHora() * totalHoras;
+            professor.setValorTotal(valorTotal);
+            professorService.salvar();
+            // Atualizar no banco de dados
+            new dao.ProfessorDAO().atualizar(professor.getMatricula(), professor.getNome(), professor.getDisciplinas(), professor.getValorHora(), professor.getTotalTurmas(), professor.getValorTotal(), professor.getHorasTrabalhadasMes(), professor.getHorasPorDisciplinaMes());
+            JOptionPane.showMessageDialog(this, "✅ Horas por disciplina atualizadas e valor total recalculado!",
+                                        "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     private Disciplina selecionarDisciplina() {

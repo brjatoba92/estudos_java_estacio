@@ -9,10 +9,12 @@ import services.ProfessorService;
 import models.Turma;
 import models.Professor;
 import java.util.List;
+import services.DisciplinaService;
 
 public class TurmaFrame extends JFrame {
     private TurmaService turmaService;
     private ProfessorService professorService;
+    private DisciplinaService disciplinaService = new DisciplinaService();
 
     public TurmaFrame(ProfessorService professorService) {
         this.professorService = professorService;
@@ -51,10 +53,23 @@ public class TurmaFrame extends JFrame {
         JTextField serieField = new JTextField();
         JTextField cargaHorariaField = new JTextField();
 
+        // Seleção de disciplina
+        java.util.List<models.Disciplina> disciplinas = disciplinaService.listarTodas();
+        if (disciplinas.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nenhuma disciplina cadastrada. Cadastre uma disciplina primeiro.",
+                                        "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String[] opcoesDisciplinas = disciplinas.stream()
+            .map(d -> d.getCodigo() + " - " + d.getNome())
+            .toArray(String[]::new);
+        JComboBox<String> comboDisciplinas = new JComboBox<>(opcoesDisciplinas);
+
         Object[] message = {
             "Código:", codigoField,
             "Série:", serieField,
-            "Carga horária (horas por semana):", cargaHorariaField
+            "Carga horária (horas por semana):", cargaHorariaField,
+            "Disciplina:", comboDisciplinas
         };
 
         int option = JOptionPane.showConfirmDialog(this, message, "Cadastrar Turma", 
@@ -63,8 +78,9 @@ public class TurmaFrame extends JFrame {
             String codigo = codigoField.getText().trim();
             String serie = serieField.getText().trim();
             String cargaHorariaStr = cargaHorariaField.getText().trim();
+            String codigoDisciplina = disciplinas.get(comboDisciplinas.getSelectedIndex()).getCodigo();
 
-            if (codigo.isEmpty() || serie.isEmpty() || cargaHorariaStr.isEmpty()) {
+            if (codigo.isEmpty() || serie.isEmpty() || cargaHorariaStr.isEmpty() || codigoDisciplina.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios!", 
                                             "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -72,12 +88,10 @@ public class TurmaFrame extends JFrame {
 
             try {
                 int cargaHoraria = Integer.parseInt(cargaHorariaStr);
-                
                 // Selecionar professor
                 Professor professor = selecionarProfessor();
                 if (professor == null) return;
-
-                Turma novaTurma = new Turma(codigo, serie, professor, cargaHoraria);
+                Turma novaTurma = new Turma(codigo, serie, professor, cargaHoraria, codigoDisciplina);
                 turmaService.cadastrar(novaTurma);
                 professor.adicionarTurma(novaTurma);
                 professorService.salvar();
@@ -183,10 +197,27 @@ public class TurmaFrame extends JFrame {
         JTextField novaSerieField = new JTextField(turma.getSerie());
         JTextField novaCargaHorariaField = new JTextField(String.valueOf(turma.getCargaHoraria()));
 
+        // Seleção de disciplina
+        java.util.List<models.Disciplina> disciplinas = disciplinaService.listarTodas();
+        String[] opcoesDisciplinas = disciplinas.stream()
+            .map(d -> d.getCodigo() + " - " + d.getNome())
+            .toArray(String[]::new);
+        JComboBox<String> comboDisciplinas = new JComboBox<>(opcoesDisciplinas);
+        // Selecionar disciplina atual
+        int idxAtual = 0;
+        for (int i = 0; i < disciplinas.size(); i++) {
+            if (disciplinas.get(i).getCodigo().equals(turma.getCodigoDisciplina())) {
+                idxAtual = i;
+                break;
+            }
+        }
+        comboDisciplinas.setSelectedIndex(idxAtual);
+
         Object[] message = {
             "Novo código:", novoCodigoField,
             "Nova série:", novaSerieField,
-            "Nova carga horária:", novaCargaHorariaField
+            "Nova carga horária:", novaCargaHorariaField,
+            "Disciplina:", comboDisciplinas
         };
 
         int option = JOptionPane.showConfirmDialog(this, message, "Atualizar Turma", 
@@ -195,8 +226,9 @@ public class TurmaFrame extends JFrame {
             String novoCodigo = novoCodigoField.getText().trim();
             String novaSerie = novaSerieField.getText().trim();
             String novaCargaHorariaStr = novaCargaHorariaField.getText().trim();
+            String novoCodigoDisciplina = disciplinas.get(comboDisciplinas.getSelectedIndex()).getCodigo();
 
-            if (novoCodigo.isEmpty() || novaSerie.isEmpty() || novaCargaHorariaStr.isEmpty()) {
+            if (novoCodigo.isEmpty() || novaSerie.isEmpty() || novaCargaHorariaStr.isEmpty() || novoCodigoDisciplina.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios!", 
                                             "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -204,12 +236,10 @@ public class TurmaFrame extends JFrame {
 
             try {
                 int novaCargaHoraria = Integer.parseInt(novaCargaHorariaStr);
-                
                 // Selecionar novo professor
                 Professor novoProfessor = selecionarProfessor();
                 if (novoProfessor == null) return;
-
-                turmaService.atualizar(codigo.trim(), novoCodigo, novaSerie, novoProfessor, novaCargaHoraria);
+                turmaService.atualizar(codigo.trim(), novoCodigo, novaSerie, novoProfessor, novaCargaHoraria, novoCodigoDisciplina);
                 JOptionPane.showMessageDialog(this, "✅ Turma atualizada com sucesso!");
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Carga horária deve ser um número válido!", 

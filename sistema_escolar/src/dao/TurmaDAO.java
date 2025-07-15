@@ -13,7 +13,8 @@ public class TurmaDAO {
            + "codigo TEXT PRIMARY KEY,"
            + "serie TEXT,"
            + "matricula_professor TEXT,"
-           + "carga_horaria INTEGER DEFAULT 0"
+           + "carga_horaria INTEGER DEFAULT 0,"
+           + "codigo_disciplina TEXT"
            + ");";
         try (Connection conn = Database.conectar();
              Statement stmt = conn.createStatement()) {
@@ -24,13 +25,14 @@ public class TurmaDAO {
     }
 
     public void inserir(Turma turma) {
-        String sql = "INSERT INTO turmas (codigo, serie, matricula_professor, carga_horaria) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO turmas (codigo, serie, matricula_professor, carga_horaria, codigo_disciplina) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = Database.conectar();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, turma.getCodigo());
             pstmt.setString(2, turma.getSerie());
             pstmt.setString(3, turma.getMatriculaProfessor());
             pstmt.setInt(4, turma.getCargaHoraria());
+            pstmt.setString(5, turma.getCodigoDisciplina());
             pstmt.executeUpdate();
             System.out.println("✅ Turma salva no banco de dados.");
         } catch (SQLException e) {
@@ -38,15 +40,16 @@ public class TurmaDAO {
         }
     }
 
-    public void atualizar(String codigoAntigo, String novoCodigo, String novaSerie, String matriculaProfessor, int novaCargaHoraria) {
-        String sql = "UPDATE turmas SET codigo = ?, serie = ?, matricula_professor = ?, carga_horaria = ? WHERE codigo = ?";
+    public void atualizar(String codigoAntigo, String novoCodigo, String novaSerie, String matriculaProfessor, int novaCargaHoraria, String novoCodigoDisciplina) {
+        String sql = "UPDATE turmas SET codigo = ?, serie = ?, matricula_professor = ?, carga_horaria = ?, codigo_disciplina = ? WHERE codigo = ?";
         try (Connection conn = Database.conectar();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, novoCodigo);
             pstmt.setString(2, novaSerie);
             pstmt.setString(3, matriculaProfessor);
             pstmt.setInt(4, novaCargaHoraria);
-            pstmt.setString(5, codigoAntigo);
+            pstmt.setString(5, novoCodigoDisciplina);
+            pstmt.setString(6, codigoAntigo);
             int rows = pstmt.executeUpdate();
             if (rows > 0) {
                 System.out.println("✅ Turma atualizada no banco de dados.");
@@ -85,7 +88,8 @@ public class TurmaDAO {
                     rs.getString("codigo"),
                     rs.getString("serie"),
                     null, // Professor será setado depois se necessário
-                    rs.getInt("carga_horaria")
+                    rs.getInt("carga_horaria"),
+                    rs.getString("codigo_disciplina")
                 );
                 turmas.add(t);
             }

@@ -15,7 +15,13 @@ public class Main {
     public static void main(String[] args) {
         // Executar interface gráfica
         javax.swing.SwingUtilities.invokeLater(() -> {
-            new MainFrame();
+            // Inicialização dos serviços com dependências cruzadas
+            ProfessorService professorService = new ProfessorService(null);
+            TurmaService turmaService = new TurmaService(professorService);
+            // Atualiza referência do TurmaService no ProfessorService
+            professorService.turmaService = turmaService;
+            // Inicializa a interface principal passando os serviços
+            new gui.MainFrame(professorService, turmaService);
         });
         
         // Inicializar tabelas do banco de dados
@@ -32,9 +38,13 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        AlunoService alunoService = new AlunoService();
-        ProfessorService professorService = new ProfessorService();
+        // Inicialização dos serviços com dependências cruzadas
+        ProfessorService professorService = new ProfessorService(null);
         TurmaService turmaService = new TurmaService(professorService);
+        // Atualiza referência do TurmaService no ProfessorService
+        professorService.turmaService = turmaService;
+
+        AlunoService alunoService = new AlunoService();
         DisciplinaService disciplinaService = new DisciplinaService();
 
         int opcao;

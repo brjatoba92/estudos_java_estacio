@@ -6,22 +6,28 @@ import models.Disciplina;
 import services.DisciplinaService;
 import util.JsonUtil;
 import dao.ProfessorDAO;
+import services.TurmaService;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Map;
+import java.util.HashMap;
 
 public class ProfessorService {
     private static final String ARQUIVO = "professores.json";
     private List<Professor> professores;
+    public TurmaService turmaService;
 
-    public ProfessorService() {
+    public ProfessorService(TurmaService turmaService) {
+        this.turmaService = turmaService;
         carregar();
         // NÃO chamar atualizarTotalTurmasTodosProfessores() aqui para evitar recursão
     }
 
     public void cadastrar(Professor professor) {
+        atualizarValorTotal(professor);
         professores.add(professor);
         salvar();
         // Persistência em SQLite
@@ -49,11 +55,11 @@ public class ProfessorService {
             professor.setNome(novoNome);
             professor.setDisciplinas(novasDisciplinas);
             professor.setValorHora(novoValorHora);
-            professor.calcularValorTotalSimples(); // Atualiza o valorTotal
+            atualizarValorTotal(professor);
             salvar();
             // Atualizar no banco de dados
             ProfessorDAO dao = new ProfessorDAO();
-            dao.atualizar(matricula, novoNome, novasDisciplinas, novoValorHora, professor.getTotalTurmas(), professor.getValorTotal());
+            dao.atualizar(matricula, novoNome, novasDisciplinas, novoValorHora, professor.getTotalTurmas(), professor.getValorTotal(), professor.getHorasTrabalhadasMes(), professor.getHorasPorDisciplinaMes());
             System.out.println("\u2705 Professor atualizado com sucesso (JSON e SQLite)!");
         } else {
             System.out.println("\u26A0 Professor não encontrado!");
@@ -104,15 +110,15 @@ public class ProfessorService {
 
     public void atualizarTotalTurmas(Professor professor) {
         // Atualiza no JSON
-        professor.calcularValorTotalSimples(); // Atualiza o valorTotal
+        atualizarValorTotal(professor);
         salvar();
         // Atualiza no banco de dados
         ProfessorDAO dao = new ProfessorDAO();
-        dao.atualizar(professor.getMatricula(), professor.getNome(), professor.getDisciplinas(), professor.getValorHora(), professor.getTotalTurmas(), professor.getValorTotal());
+        dao.atualizar(professor.getMatricula(), professor.getNome(), professor.getDisciplinas(), professor.getValorHora(), professor.getTotalTurmas(), professor.getValorTotal(), professor.getHorasTrabalhadasMes(), professor.getHorasPorDisciplinaMes());
     }
 
     public void atualizarTotalTurmasTodosProfessores() {
-        TurmaService turmaService = new TurmaService(this);
+        if (turmaService == null) turmaService = new TurmaService(this);
         List<Professor> professores = listarTodos();
         List<models.Turma> turmas = turmaService.listarTodas();
         for (Professor professor : professores) {
@@ -120,6 +126,7 @@ public class ProfessorService {
                 .filter(t -> professor.getMatricula().equals(t.getMatriculaProfessor()))
                 .count();
             professor.setTotalTurmas((int) total);
+            atualizarValorTotal(professor);
         }
         salvar(); // Salva todos os professores com o campo atualizado no JSON
     }
@@ -154,6 +161,8 @@ public class ProfessorService {
             System.out.println("4 - Atualizar professor");
             System.out.println("5 - Remover professor");
             System.out.println("6 - Relatório financeiro");
+            System.out.println("7 - Horas por disciplina no mês");
+            System.out.println("8 - Informar horas manualmente por disciplina");
             System.out.println("0 - Voltar");
             System.out.print("Escolha uma opção: ");
             opcao = Integer.parseInt(scanner.nextLine());
@@ -285,6 +294,18 @@ public class ProfessorService {
                     }
                     break;
                 
+                case 7 :
+                    System.out.print("Matrícula do professor: ");
+                    String matHoras = scanner.nextLine();
+                    exibirHorasPorDisciplina(matHoras);
+                    break;
+                
+                case 8 :
+                    System.out.print("Matrícula do professor: ");
+                    String matHorasDisc = scanner.nextLine();
+                    informarHorasPorDisciplina(matHorasDisc);
+                    break;
+                
                 case 0 : 
                     System.out.println("Voltando ao menu principal...");
                     break;
@@ -338,5 +359,73 @@ public class ProfessorService {
             }
         }
         return selecionadas;
+    }
+
+    // Atualiza o valorTotal do professor com base nas turmas e cargaHoraria
+    public void atualizarValorTotal(Professor professor) {
+        if (turmaService == null) return;
+        int totalHoras = 0;
+        List<models.Turma> turmasDoProfessor = turmaService.listarTurmasPorProfessor(professor.getMatricula());
+        for (models.Turma turma : turmasDoProfessor) {
+            totalHoras += turma.getCargaHoraria();
+        }
+        double valorTotal = professor.getValorHora() * totalHoras;
+        professor.setHorasTrabalhadasMes(totalHoras);
+        professor.setValorTotal(valorTotal);
+    }
+
+    public void exibirHorasPorDisciplina(String matriculaProfessor) {
+        Professor professor = buscarPorMatricula(matriculaProfessor);
+        if (professor == null) {
+            System.out.println("Professor não encontrado!");
+            return;
+        }
+        if (turmaService == null) {
+            System.out.println("TurmaService não disponível!");
+            return;
+        }
+        List<models.Turma> turmasDoProfessor = turmaService.listarTurmasPorProfessor(matriculaProfessor);
+        java.util.Map<String, Integer> horasPorDisciplina = new java.util.HashMap<>();
+        for (models.Turma turma : turmasDoProfessor) {
+            String codDisc = turma.getCodigoDisciplina();
+            int carga = turma.getCargaHoraria();
+            horasPorDisciplina.put(codDisc, horasPorDisciplina.getOrDefault(codDisc, 0) + carga);
+        }
+        System.out.println("\nHoras trabalhadas no mês por disciplina para o professor " + professor.getNome() + ":");
+        for (java.util.Map.Entry<String, Integer> entry : horasPorDisciplina.entrySet()) {
+            System.out.println("Disciplina: " + entry.getKey() + " | Horas: " + entry.getValue());
+        }
+    }
+
+    public void informarHorasPorDisciplina(String matricula) {
+        Professor professor = buscarPorMatricula(matricula);
+        if (professor == null) {
+            System.out.println("Professor não encontrado!");
+            return;
+        }
+        Scanner scanner = new Scanner(System.in);
+        Map<String, Integer> horasPorDisciplina = new HashMap<>();
+        System.out.println("Digite as horas trabalhadas no mês para cada disciplina do professor " + professor.getNome() + ":");
+        for (String disciplina : professor.getDisciplinas()) {
+            System.out.print("Disciplina: " + disciplina + " | Horas: ");
+            int horas = 0;
+            try {
+                horas = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Valor inválido, usando 0.");
+            }
+            horasPorDisciplina.put(disciplina, horas);
+        }
+        professor.setHorasPorDisciplinaMes(horasPorDisciplina);
+        // Atualizar valorTotal com base nas horas informadas
+        int totalHoras = horasPorDisciplina.values().stream().mapToInt(Integer::intValue).sum();
+        professor.setHorasTrabalhadasMes(totalHoras);
+        double valorTotal = professor.getValorHora() * totalHoras;
+        professor.setValorTotal(valorTotal);
+        salvar();
+        // Atualizar no banco de dados
+        ProfessorDAO dao = new ProfessorDAO();
+        dao.atualizar(professor.getMatricula(), professor.getNome(), professor.getDisciplinas(), professor.getValorHora(), professor.getTotalTurmas(), professor.getValorTotal(), professor.getHorasTrabalhadasMes(), professor.getHorasPorDisciplinaMes());
+        System.out.println("✅ Horas por disciplina atualizadas e valor total recalculado!");
     }
 }
