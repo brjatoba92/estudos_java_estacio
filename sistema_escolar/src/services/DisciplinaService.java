@@ -54,7 +54,7 @@ public class DisciplinaService {
             }
             
             // Verificar se há turmas que usam esta disciplina
-            ProfessorService professorService2 = new ProfessorService();
+            ProfessorService professorService2 = new ProfessorService(null); // Passa null pois DisciplinaService não gerencia turmas
             TurmaService turmaService = new TurmaService(professorService2);
             List<Turma> turmasAfetadas = new ArrayList<>();
             for (Turma turma : turmaService.listarTodas()) {

@@ -4,6 +4,8 @@ import com.google.gson.annotations.Expose;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Professor {
     @Expose
@@ -18,6 +20,10 @@ public class Professor {
     private int totalTurmas;
     @Expose
     private double valorTotal;
+    @Expose
+    private int horasTrabalhadasMes;
+    @Expose
+    private Map<String, Integer> horasPorDisciplinaMes = new HashMap<>();
     private transient List<Turma> turmas;
 
     // ✅ Construtor vazio exigido pelo Gson
@@ -111,6 +117,20 @@ public class Professor {
     }
     public void setValorTotal(double valorTotal) {
         this.valorTotal = valorTotal;
+    }
+
+    public int getHorasTrabalhadasMes() {
+        return horasTrabalhadasMes;
+    }
+    public void setHorasTrabalhadasMes(int horasTrabalhadasMes) {
+        this.horasTrabalhadasMes = horasTrabalhadasMes;
+    }
+
+    public Map<String, Integer> getHorasPorDisciplinaMes() {
+        return horasPorDisciplinaMes;
+    }
+    public void setHorasPorDisciplinaMes(Map<String, Integer> horasPorDisciplinaMes) {
+        this.horasPorDisciplinaMes = horasPorDisciplinaMes;
     }
 
     public void adicionarTurma(Turma turma) {

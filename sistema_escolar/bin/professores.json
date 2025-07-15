@@ -1,22 +1,68 @@
 [
   {
-    "nome": "Bruno Jatobá",
+    "nome": "Dr. Carlos Eduardo Medeiros",
     "disciplinas": [
-      "Fundamentos da Meteorologia"
+      "Introdução à Programação"
     ],
-    "matricula": "PROF01",
-    "valorHora": 50.0,
-    "totalTurmas": 2,
-    "valorTotal": 100.0
+    "matricula": "PROF202301",
+    "valorHora": 95.0,
+    "totalTurmas": 1,
+    "valorTotal": 2850.0,
+    "horasTrabalhadasMes": 30,
+    "horasPorDisciplinaMes": {
+      "Introdução à Programação": 30
+    }
   },
   {
-    "nome": "ROdtigo LIns",
+    "nome": "Dra. Juliana Sampaio Andrade",
     "disciplinas": [
-      "Instrumentos e Métodos de Observação Meteorológicos"
+      "Cálculo Diferencial e Integral I"
     ],
-    "matricula": "PROF02",
-    "valorHora": 50.0,
+    "matricula": "Dra. Juliana Sampaio Andrade",
+    "valorHora": 110.0,
     "totalTurmas": 1,
-    "valorTotal": 50.0
+    "valorTotal": 4400.0,
+    "horasTrabalhadasMes": 40,
+    "horasPorDisciplinaMes": {
+      "Cálculo Diferencial e Integral I": 40
+    }
+  },
+  {
+    "nome": "Msc. Ricardo Alves Pereira",
+    "disciplinas": [
+      "Circuitos Elétricos DC"
+    ],
+    "matricula": "PROF202303",
+    "valorHora": 80.0,
+    "totalTurmas": 1,
+    "valorTotal": 4800.0,
+    "horasTrabalhadasMes": 60,
+    "horasPorDisciplinaMes": {
+      "Circuitos Elétricos DC": 60
+    }
+  },
+  {
+    "nome": "Esp. Patrícia Lima Dias",
+    "disciplinas": [
+      "Física Clássica"
+    ],
+    "matricula": "PROF202304",
+    "valorHora": 70.0,
+    "totalTurmas": 0,
+    "valorTotal": 0.0,
+    "horasTrabalhadasMes": 0,
+    "horasPorDisciplinaMes": {}
+  },
+  {
+    "nome": "Dr. Fernando Gomes da Costa",
+    "disciplinas": [
+      "Banco de Dados"
+    ],
+    "matricula": "PROF202305",
+    "valorHora": 105.0,
+    "totalTurmas": 0,
+    "valorTotal": 0.0,
+    "horasTrabalhadasMes": 0,
+    "horasPorDisciplinaMes": {}
   }
 ]

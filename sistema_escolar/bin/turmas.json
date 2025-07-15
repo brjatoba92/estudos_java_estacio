@@ -1,20 +1,23 @@
 [
   {
-    "codigo": "FUND01",
-    "serie": "SEM1",
-    "matriculaProfessor": "PROF01",
-    "cargaHoraria": 4
+    "codigo": "COMP-A2025",
+    "serie": "1º Período - Engenharia de Software",
+    "matriculaProfessor": "PROF202301",
+    "cargaHoraria": 4,
+    "codigoDisciplina": "COMP101"
   },
   {
-    "codigo": "INT01",
-    "serie": "SEM1",
-    "matriculaProfessor": "PROF02",
-    "cargaHoraria": 2
+    "codigo": "COMP-A2026",
+    "serie": "2º Período - Engenharia de Software",
+    "matriculaProfessor": "Dra. Juliana Sampaio Andrade",
+    "cargaHoraria": 4,
+    "codigoDisciplina": "MATB203"
   },
   {
-    "codigo": "FUND02",
-    "serie": "SEM01",
-    "matriculaProfessor": "PROF01",
-    "cargaHoraria": 4
+    "codigo": "ENG-C2025",
+    "serie": "5º Período - Engenharia Elétrica",
+    "matriculaProfessor": "PROF202303",
+    "cargaHoraria": 6,
+    "codigoDisciplina": "ELEM305"
   }
 ]

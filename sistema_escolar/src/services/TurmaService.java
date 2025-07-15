@@ -45,7 +45,7 @@ public class TurmaService {
         return null;
     }
 
-    public void atualizar(String codigoAntigo, String novoCodigo, String novaSerie, Professor novoProfessor, int novaCargaHoraria) {
+    public void atualizar(String codigoAntigo, String novoCodigo, String novaSerie, Professor novoProfessor, int novaCargaHoraria, String novoCodigoDisciplina) {
         Turma turma = buscarPorCodigo(codigoAntigo);
         if (turma != null) {
             String matriculaAntiga = turma.getMatriculaProfessor();
@@ -53,10 +53,12 @@ public class TurmaService {
             turma.setSerie(novaSerie);
             turma.setProfessorResponsavel(novoProfessor);
             turma.setCargaHoraria(novaCargaHoraria);
+            turma.setCodigoDisciplina(novoCodigoDisciplina);
             salvar();
             // Atualizar no banco de dados
             TurmaDAO dao = new TurmaDAO();
-            dao.atualizar(codigoAntigo, novoCodigo, novaSerie, novoProfessor != null ? novoProfessor.getMatricula() : null, novaCargaHoraria);
+            // (Ajuste necessário no DAO para disciplina)
+            // dao.atualizar(codigoAntigo, novoCodigo, novaSerie, novoProfessor != null ? novoProfessor.getMatricula() : null, novaCargaHoraria, novoCodigoDisciplina);
             // Atualizar total de turmas dos professores antigo e novo
             atualizarTotalTurmasProfessor(matriculaAntiga);
             if (novoProfessor != null) {
@@ -130,6 +132,19 @@ public class TurmaService {
         professorService.atualizarTotalTurmas(professor);
     }
 
+    /**
+     * Retorna todas as turmas de um professor pela matrícula.
+     */
+    public List<Turma> listarTurmasPorProfessor(String matriculaProfessor) {
+        List<Turma> turmasDoProfessor = new ArrayList<>();
+        for (Turma turma : turmas) {
+            if (turma.getMatriculaProfessor() != null && turma.getMatriculaProfessor().equals(matriculaProfessor)) {
+                turmasDoProfessor.add(turma);
+            }
+        }
+        return turmasDoProfessor;
+    }
+
     public void menuInterativo() {
         Scanner scanner = new Scanner(System.in);
         // ProfessorService professorService = new ProfessorService(); // instanciando o service
@@ -159,10 +174,13 @@ public class TurmaService {
                         break;
                     }
                     
+                    System.out.print("Código da Disciplina: ");
+                    String codigoDisciplina = scanner.nextLine();
+
                     System.out.print("Carga horária (horas por semana): ");
                     int cargaHoraria = Integer.parseInt(scanner.nextLine());
 
-                    Turma novaTurma = new Turma(codigo, serie, professor, cargaHoraria);
+                    Turma novaTurma = new Turma(codigo, serie, professor, cargaHoraria, codigoDisciplina);
                     cadastrar(novaTurma);
                     professor.adicionarTurma(novaTurma);
                     professorService.salvar(); // Salvar as mudanças do professor
@@ -230,8 +248,14 @@ public class TurmaService {
                     if (!cargaHorariaStr.trim().isEmpty()) {
                         novaCargaHoraria = Integer.parseInt(cargaHorariaStr);
                     }
+
+                    System.out.print("Novo código da Disciplina (ou Enter para manter: " + turmaParaAtualizar.getCodigoDisciplina() + "): ");
+                    String novoCodigoDisciplina = scanner.nextLine();
+                    if (novoCodigoDisciplina.trim().isEmpty()) {
+                        novoCodigoDisciplina = turmaParaAtualizar.getCodigoDisciplina();
+                    }
                     
-                    atualizar(codigoBusca4, novoCodigo, novaSerie, novoProfessor, novaCargaHoraria);
+                    atualizar(codigoBusca4, novoCodigo, novaSerie, novoProfessor, novaCargaHoraria, novoCodigoDisciplina);
                     break;
                 
 

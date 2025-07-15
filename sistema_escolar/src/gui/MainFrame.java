@@ -4,8 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame extends JFrame {
-    private final services.ProfessorService professorService = new services.ProfessorService();
-    public MainFrame() {
+    private final services.ProfessorService professorService;
+    private final services.TurmaService turmaService;
+    public MainFrame(services.ProfessorService professorService, services.TurmaService turmaService) {
+        this.professorService = professorService;
+        this.turmaService = turmaService;
         setTitle(" Gestão Universitaria - Menu Principal");
         setSize(500, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -15,7 +18,7 @@ public class MainFrame extends JFrame {
         alunoBtn.addActionListener(e -> new AlunoFrame());
 
         JButton professorBtn = new JButton("👨‍🏫 Gerenciar Professores");
-        professorBtn.addActionListener(e -> new ProfessorFrame());
+        professorBtn.addActionListener(e -> new ProfessorFrame(professorService));
 
         JButton turmaBtn = new JButton("🏫 Gerenciar Turmas");
         turmaBtn.addActionListener(e -> new TurmaFrame(professorService));

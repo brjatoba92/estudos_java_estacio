@@ -336,7 +336,7 @@ public class AlunoService {
         String codigoTurma = scanner.nextLine();
         
         // Buscar turma (precisamos acessar o TurmaService)
-        ProfessorService professorService = new ProfessorService();
+        ProfessorService professorService = new ProfessorService(null); // Passa null pois AlunoService não gerencia turmas
         TurmaService turmaService = new TurmaService(professorService);
         Turma turma = turmaService.buscarPorCodigo(codigoTurma);
         
