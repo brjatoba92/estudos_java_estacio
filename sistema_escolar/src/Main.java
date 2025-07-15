@@ -34,7 +34,7 @@ public class Main {
 
         AlunoService alunoService = new AlunoService();
         ProfessorService professorService = new ProfessorService();
-        TurmaService turmaService = new TurmaService();
+        TurmaService turmaService = new TurmaService(professorService);
         DisciplinaService disciplinaService = new DisciplinaService();
 
         int opcao;

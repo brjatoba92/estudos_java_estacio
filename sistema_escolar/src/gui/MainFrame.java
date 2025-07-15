@@ -4,8 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame extends JFrame {
+    private final services.ProfessorService professorService = new services.ProfessorService();
     public MainFrame() {
-        setTitle("Sistema Escolar - Menu Principal");
+        setTitle(" Gestão Universitaria - Menu Principal");
         setSize(500, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -17,7 +18,7 @@ public class MainFrame extends JFrame {
         professorBtn.addActionListener(e -> new ProfessorFrame());
 
         JButton turmaBtn = new JButton("🏫 Gerenciar Turmas");
-        turmaBtn.addActionListener(e -> new TurmaFrame());
+        turmaBtn.addActionListener(e -> new TurmaFrame(professorService));
 
         JButton disciplinaBtn = new JButton("📚 Gerenciar Disciplinas");
         disciplinaBtn.addActionListener(e -> new DisciplinaFrame());

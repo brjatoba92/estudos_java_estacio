@@ -41,7 +41,7 @@ public class DisciplinaService {
         return null;
     }
 
-    public void atualizar(String codigo, String novoCodigo, String novoNome, int novaCargaHoraria) {
+    public void atualizar(String codigo, String novoCodigo, String novoNome, int novaCargaHoraria, String novaEmenta) {
         Disciplina disciplina = buscarPorCodigo(codigo);
         if (disciplina != null) {
             // Verificar se o novo código já existe (se for diferente do atual)
@@ -54,7 +54,8 @@ public class DisciplinaService {
             }
             
             // Verificar se há turmas que usam esta disciplina
-            TurmaService turmaService = new TurmaService();
+            ProfessorService professorService2 = new ProfessorService();
+            TurmaService turmaService = new TurmaService(professorService2);
             List<Turma> turmasAfetadas = new ArrayList<>();
             for (Turma turma : turmaService.listarTodas()) {
                 // Aqui você pode adicionar lógica para verificar se a turma usa esta disciplina
@@ -75,7 +76,11 @@ public class DisciplinaService {
             disciplina.setCodigo(novoCodigo);
             disciplina.setNome(novoNome);
             disciplina.setCargaHoraria(novaCargaHoraria);
+            disciplina.setEmenta(novaEmenta);
             salvar();
+            // Atualizar no banco de dados
+            DisciplinaDAO dao = new DisciplinaDAO();
+            dao.atualizar(codigo, novoNome, novaCargaHoraria, novaEmenta);
             System.out.println("✅ Disciplina atualizada com sucesso!");
         } else {
             System.out.println("⚠️ Disciplina não encontrada.");
@@ -142,8 +147,10 @@ public class DisciplinaService {
                     String nomeCadastro = scanner.nextLine();
                     System.out.print("Carga Horaria: ");
                     int cargaHoraria = Integer.parseInt(scanner.nextLine());
+                    System.out.print("Ementa: ");
+                    String ementa = scanner.nextLine();
 
-                    cadastrar(new Disciplina(codigoCadastro, nomeCadastro, cargaHoraria));
+                    cadastrar(new Disciplina(codigoCadastro, nomeCadastro, cargaHoraria, ementa));
                     break;
                 
                 case 2 :
@@ -187,7 +194,12 @@ public class DisciplinaService {
                         if (!cargaHorariaStr.trim().isEmpty()) {
                             novaCargaHoraria = Integer.parseInt(cargaHorariaStr);
                         }
-                        atualizar(codigoAtualiza, novoCodigo, nomeAtualiza, novaCargaHoraria);
+                        System.out.print("Nova ementa (ou Enter para manter: " + disciplinaParaAtualizar.getEmenta() + "): ");
+                        String novaEmenta = scanner.nextLine();
+                        if (novaEmenta.trim().isEmpty()) {
+                            novaEmenta = disciplinaParaAtualizar.getEmenta();
+                        }
+                        atualizar(codigoAtualiza, novoCodigo, nomeAtualiza, novaCargaHoraria, novaEmenta);
                     } else {
                         System.out.println("⚠️ Disciplina não encontrada.");
                     }

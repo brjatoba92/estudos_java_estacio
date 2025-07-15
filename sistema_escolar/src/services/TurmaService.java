@@ -14,8 +14,10 @@ import java.util.Scanner;
 public class TurmaService {
     private static final String ARQUIVO = "turmas.json";
     private List<Turma> turmas;
+    private ProfessorService professorService;
 
-    public TurmaService() {
+    public TurmaService(ProfessorService professorService) {
+        this.professorService = professorService;
         carregar();
     }
 
@@ -25,6 +27,8 @@ public class TurmaService {
         // Persistência em SQLite
         TurmaDAO dao = new TurmaDAO();
         dao.inserir(turma);
+        // Atualizar total de turmas do professor
+        atualizarTotalTurmasProfessor(turma.getMatriculaProfessor());
         System.out.println("\u2705 Turma cadastrada com sucesso (JSON e SQLite)!");
     }
 
@@ -44,11 +48,20 @@ public class TurmaService {
     public void atualizar(String codigoAntigo, String novoCodigo, String novaSerie, Professor novoProfessor, int novaCargaHoraria) {
         Turma turma = buscarPorCodigo(codigoAntigo);
         if (turma != null) {
+            String matriculaAntiga = turma.getMatriculaProfessor();
             turma.setCodigo(novoCodigo);
             turma.setSerie(novaSerie);
             turma.setProfessorResponsavel(novoProfessor);
             turma.setCargaHoraria(novaCargaHoraria);
             salvar();
+            // Atualizar no banco de dados
+            TurmaDAO dao = new TurmaDAO();
+            dao.atualizar(codigoAntigo, novoCodigo, novaSerie, novoProfessor != null ? novoProfessor.getMatricula() : null, novaCargaHoraria);
+            // Atualizar total de turmas dos professores antigo e novo
+            atualizarTotalTurmasProfessor(matriculaAntiga);
+            if (novoProfessor != null) {
+                atualizarTotalTurmasProfessor(novoProfessor.getMatricula());
+            }
             System.out.println("\u2705 Turma atualizada com sucesso!");
         } else {
             System.out.println("\u26A0 Turma não encontrada!");
@@ -58,8 +71,14 @@ public class TurmaService {
     public void remover(String codigo) {
         Turma turma = buscarPorCodigo(codigo);
         if (turma != null) {
+            String matriculaProfessor = turma.getMatriculaProfessor();
             turmas.remove(turma);
             salvar();
+            // Remover do banco de dados
+            TurmaDAO dao = new TurmaDAO();
+            dao.remover(codigo);
+            // Atualizar total de turmas do professor
+            atualizarTotalTurmasProfessor(matriculaProfessor);
             System.out.println("\u2705 Turma removida com sucesso!");
         } else {
             System.out.println("\u26A0 Turma não encontrada!");
@@ -78,7 +97,6 @@ public class TurmaService {
                 turmas = turmasList != null ? turmasList : new ArrayList<>();
                 
                 // Restaurar referências dos professores
-                ProfessorService professorService = new ProfessorService();
                 for (Turma turma : turmas) {
                     if (turma.getMatriculaProfessor() != null) {
                         Professor professor = professorService.buscarPorMatricula(turma.getMatriculaProfessor());
@@ -99,9 +117,22 @@ public class TurmaService {
         }
     }
 
+    private void atualizarTotalTurmasProfessor(String matriculaProfessor) {
+        if (matriculaProfessor == null) return;
+        Professor professor = professorService.buscarPorMatricula(matriculaProfessor);
+        if (professor == null) return;
+        // Contar turmas do professor
+        long total = turmas.stream()
+            .filter(t -> matriculaProfessor.equals(t.getMatriculaProfessor()))
+            .count();
+        professor.setTotalTurmas((int) total);
+        professor.calcularValorTotalSimples();
+        professorService.atualizarTotalTurmas(professor);
+    }
+
     public void menuInterativo() {
         Scanner scanner = new Scanner(System.in);
-        ProfessorService professorService = new ProfessorService(); // instanciando o service
+        // ProfessorService professorService = new ProfessorService(); // instanciando o service
 
         int opcao;
         do {
@@ -221,7 +252,6 @@ public class TurmaService {
     }
 
     private Professor selecionarProfessor(Scanner scanner) {
-        ProfessorService professorService = new ProfessorService();
         List<Professor> professores = professorService.listarTodos();
         if (professores.isEmpty()) {
             System.out.println("Nenhum professor cadastrado. Cadastre um professor primeiro.");

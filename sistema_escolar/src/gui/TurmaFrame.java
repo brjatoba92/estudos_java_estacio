@@ -11,10 +11,12 @@ import models.Professor;
 import java.util.List;
 
 public class TurmaFrame extends JFrame {
-    private TurmaService turmaService = new TurmaService();
-    private ProfessorService professorService = new ProfessorService();
+    private TurmaService turmaService;
+    private ProfessorService professorService;
 
-    public TurmaFrame() {
+    public TurmaFrame(ProfessorService professorService) {
+        this.professorService = professorService;
+        this.turmaService = new TurmaService(professorService);
         setTitle("Gerenciamento de Turmas");
         setSize(600, 400);
         setLocationRelativeTo(null);

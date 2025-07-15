@@ -32,7 +32,8 @@
   {
     "codigoCadastro": "METR100",
     "nomeCadastro": "Matemática 1 para Meteorologia",
-    "cargaHoraria": 72
+    "cargaHoraria": 72,
+    "ementa": "LImites,\nDerivadas"
   },
   {
     "codigoCadastro": "METR101",

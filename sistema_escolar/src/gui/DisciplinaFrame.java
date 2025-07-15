@@ -42,27 +42,17 @@ public class DisciplinaFrame extends JFrame {
     }
 
     private void cadastrarDisciplina() {
-        // Mostrar disciplinas já cadastradas
-        List<Disciplina> disciplinas = disciplinaService.listarTodas();
-        if (!disciplinas.isEmpty()) {
-            StringBuilder sb = new StringBuilder("Disciplinas já cadastradas:\n");
-            for (Disciplina disc : disciplinas) {
-                sb.append("- ").append(disc.getCodigo()).append(" | ")
-                  .append(disc.getNome()).append(" | ")
-                  .append(disc.getCargaHoraria()).append("h\n");
-            }
-            JOptionPane.showMessageDialog(this, sb.toString(), "Disciplinas Existentes", 
-                                        JOptionPane.INFORMATION_MESSAGE);
-        }
-
         JTextField codigoField = new JTextField();
         JTextField nomeField = new JTextField();
         JTextField cargaHorariaField = new JTextField();
+        JTextArea ementaArea = new JTextArea(5, 30);
+        JScrollPane ementaScroll = new JScrollPane(ementaArea);
 
         Object[] message = {
             "Código:", codigoField,
-            "Nome da disciplina:", nomeField,
-            "Carga horária:", cargaHorariaField
+            "Nome:", nomeField,
+            "Carga horária (horas):", cargaHorariaField,
+            "Ementa:", ementaScroll
         };
 
         int option = JOptionPane.showConfirmDialog(this, message, "Cadastrar Disciplina", 
@@ -71,6 +61,7 @@ public class DisciplinaFrame extends JFrame {
             String codigo = codigoField.getText().trim();
             String nome = nomeField.getText().trim();
             String cargaHorariaStr = cargaHorariaField.getText().trim();
+            String ementa = ementaArea.getText().trim();
 
             if (codigo.isEmpty() || nome.isEmpty() || cargaHorariaStr.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios!", 
@@ -80,7 +71,7 @@ public class DisciplinaFrame extends JFrame {
 
             try {
                 int cargaHoraria = Integer.parseInt(cargaHorariaStr);
-                disciplinaService.cadastrar(new Disciplina(codigo, nome, cargaHoraria));
+                disciplinaService.cadastrar(new Disciplina(codigo, nome, cargaHoraria, ementa));
                 JOptionPane.showMessageDialog(this, "✅ Disciplina cadastrada com sucesso!");
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Carga horária deve ser um número válido!", 
@@ -98,19 +89,17 @@ public class DisciplinaFrame extends JFrame {
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append("Código | Nome | Carga Horária\n");
-        sb.append("-".repeat(50)).append("\n");
-        
+        sb.append("Código | Nome | Carga Horária | Ementa\n");
+        sb.append("-".repeat(80)).append("\n");
         for (Disciplina d : disciplinas) {
-            sb.append(String.format("%s | %s | %dh\n", 
-                d.getCodigo(), d.getNome(), d.getCargaHoraria()));
+            sb.append(String.format("%s | %s | %dh\nEmenta: %s\n\n", 
+                d.getCodigo(), d.getNome(), d.getCargaHoraria(), d.getEmenta() != null ? d.getEmenta() : ""));
         }
 
         JTextArea textArea = new JTextArea(sb.toString());
         textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textArea);
-        scrollPane.setPreferredSize(new Dimension(500, 300));
-        
+        scrollPane.setPreferredSize(new Dimension(600, 400));
         JOptionPane.showMessageDialog(this, scrollPane, "Lista de Disciplinas", 
                                     JOptionPane.INFORMATION_MESSAGE);
     }
@@ -123,7 +112,8 @@ public class DisciplinaFrame extends JFrame {
                 JOptionPane.showMessageDialog(this, 
                     "Código: " + disciplina.getCodigo() + "\n" +
                     "Nome: " + disciplina.getNome() + "\n" +
-                    "Carga Horária: " + disciplina.getCargaHoraria() + "h",
+                    "Carga Horária: " + disciplina.getCargaHoraria() + "h\n" +
+                    "Ementa: " + (disciplina.getEmenta() != null ? disciplina.getEmenta() : ""),
                     "Disciplina Encontrada", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this, "Disciplina não encontrada.", 
@@ -163,11 +153,14 @@ public class DisciplinaFrame extends JFrame {
         JTextField novoCodigoField = new JTextField(disciplina.getCodigo());
         JTextField novoNomeField = new JTextField(disciplina.getNome());
         JTextField novaCargaHorariaField = new JTextField(String.valueOf(disciplina.getCargaHoraria()));
+        JTextArea novaEmentaArea = new JTextArea(disciplina.getEmenta() != null ? disciplina.getEmenta() : "", 5, 30);
+        JScrollPane novaEmentaScroll = new JScrollPane(novaEmentaArea);
 
         Object[] message = {
             "Novo código:", novoCodigoField,
             "Novo nome:", novoNomeField,
-            "Nova carga horária:", novaCargaHorariaField
+            "Nova carga horária:", novaCargaHorariaField,
+            "Nova ementa:", novaEmentaScroll
         };
 
         int option = JOptionPane.showConfirmDialog(this, message, "Atualizar Disciplina", 
@@ -176,6 +169,7 @@ public class DisciplinaFrame extends JFrame {
             String novoCodigo = novoCodigoField.getText().trim();
             String novoNome = novoNomeField.getText().trim();
             String novaCargaHorariaStr = novaCargaHorariaField.getText().trim();
+            String novaEmenta = novaEmentaArea.getText().trim();
 
             if (novoCodigo.isEmpty() || novoNome.isEmpty() || novaCargaHorariaStr.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios!", 
@@ -185,7 +179,7 @@ public class DisciplinaFrame extends JFrame {
 
             try {
                 int novaCargaHoraria = Integer.parseInt(novaCargaHorariaStr);
-                disciplinaService.atualizar(codigo.trim(), novoCodigo, novoNome, novaCargaHoraria);
+                disciplinaService.atualizar(codigo.trim(), novoCodigo, novoNome, novaCargaHoraria, novaEmenta);
                 JOptionPane.showMessageDialog(this, "✅ Disciplina atualizada com sucesso!");
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Carga horária deve ser um número válido!", 

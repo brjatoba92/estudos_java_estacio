@@ -82,7 +82,7 @@ public class AlunoService {
         }
     }
 
-    private void salvar() {
+    public void salvar() {
         JsonUtil.salvar(alunos, ARQUIVO);
     }
 
@@ -336,7 +336,8 @@ public class AlunoService {
         String codigoTurma = scanner.nextLine();
         
         // Buscar turma (precisamos acessar o TurmaService)
-        TurmaService turmaService = new TurmaService();
+        ProfessorService professorService = new ProfessorService();
+        TurmaService turmaService = new TurmaService(professorService);
         Turma turma = turmaService.buscarPorCodigo(codigoTurma);
         
         if (turma == null) {

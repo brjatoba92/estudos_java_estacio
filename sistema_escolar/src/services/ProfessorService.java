@@ -18,6 +18,7 @@ public class ProfessorService {
 
     public ProfessorService() {
         carregar();
+        // NÃO chamar atualizarTotalTurmasTodosProfessores() aqui para evitar recursão
     }
 
     public void cadastrar(Professor professor) {
@@ -42,20 +43,26 @@ public class ProfessorService {
         return null;
     }
 
-    public void atualizar(String matricula, String novoNome, String novaDisciplina, double novoValorHora) {
+    public void atualizar(String matricula, String novoNome, java.util.List<String> novasDisciplinas, double novoValorHora) {
         Professor professor = buscarPorMatricula(matricula);
         if (professor != null) {
             professor.setNome(novoNome);
-            professor.setDisciplina(novaDisciplina);
+            professor.setDisciplinas(novasDisciplinas);
             professor.setValorHora(novoValorHora);
+            professor.calcularValorTotalSimples(); // Atualiza o valorTotal
             salvar();
             // Atualizar no banco de dados
             ProfessorDAO dao = new ProfessorDAO();
-            dao.atualizar(matricula, novoNome, novaDisciplina, novoValorHora);
+            dao.atualizar(matricula, novoNome, novasDisciplinas, novoValorHora, professor.getTotalTurmas(), professor.getValorTotal());
             System.out.println("\u2705 Professor atualizado com sucesso (JSON e SQLite)!");
         } else {
             System.out.println("\u26A0 Professor não encontrado!");
         }
+    }
+
+    // Para compatibilidade com interface antiga
+    public void atualizar(String matricula, String novoNome, String novaDisciplina, double novoValorHora) {
+        atualizar(matricula, novoNome, novaDisciplina != null ? java.util.Arrays.asList(novaDisciplina) : new java.util.ArrayList<>(), novoValorHora);
     }
 
     public void remover(String matricula) {
@@ -93,6 +100,28 @@ public class ProfessorService {
         
         System.out.println("\n" + "=".repeat(50));
         System.out.println("VALOR TOTAL GERAL: R$ " + String.format("%.2f", valorTotalGeral));
+    }
+
+    public void atualizarTotalTurmas(Professor professor) {
+        // Atualiza no JSON
+        professor.calcularValorTotalSimples(); // Atualiza o valorTotal
+        salvar();
+        // Atualiza no banco de dados
+        ProfessorDAO dao = new ProfessorDAO();
+        dao.atualizar(professor.getMatricula(), professor.getNome(), professor.getDisciplinas(), professor.getValorHora(), professor.getTotalTurmas(), professor.getValorTotal());
+    }
+
+    public void atualizarTotalTurmasTodosProfessores() {
+        TurmaService turmaService = new TurmaService(this);
+        List<Professor> professores = listarTodos();
+        List<models.Turma> turmas = turmaService.listarTodas();
+        for (Professor professor : professores) {
+            long total = turmas.stream()
+                .filter(t -> professor.getMatricula().equals(t.getMatriculaProfessor()))
+                .count();
+            professor.setTotalTurmas((int) total);
+        }
+        salvar(); // Salva todos os professores com o campo atualizado no JSON
     }
 
     private void carregar() {
@@ -191,22 +220,26 @@ public class ProfessorService {
                     System.out.print("Escolha o número da nova disciplina (ou 0 para manter: " + professor.getDisciplina() + "): ");
                     String escolhaDisciplina = scanner.nextLine();
                     
-                    Disciplina novaDisciplina = null;
+                    List<String> novaDisciplina = null;
                     if (escolhaDisciplina.trim().isEmpty() || escolhaDisciplina.equals("0")) {
                         // Manter disciplina atual
-                        novaDisciplina = new Disciplina("", professor.getDisciplina(), 0);
+                        novaDisciplina = new ArrayList<>();
+                        novaDisciplina.add(professor.getDisciplina());
                     } else {
                         try {
                             int escolha = Integer.parseInt(escolhaDisciplina);
                             if (escolha > 0 && escolha <= disciplinas.size()) {
-                                novaDisciplina = disciplinas.get(escolha - 1);
+                                novaDisciplina = new ArrayList<>();
+                                novaDisciplina.add(disciplinas.get(escolha - 1).getNome());
                             } else {
                                 System.out.println("⚠️ Opção inválida, mantendo disciplina atual.");
-                                novaDisciplina = new Disciplina("", professor.getDisciplina(), 0);
+                                novaDisciplina = new ArrayList<>();
+                                novaDisciplina.add(professor.getDisciplina());
                             }
                         } catch (NumberFormatException e) {
                             System.out.println("⚠️ Opção inválida, mantendo disciplina atual.");
-                            novaDisciplina = new Disciplina("", professor.getDisciplina(), 0);
+                            novaDisciplina = new ArrayList<>();
+                            novaDisciplina.add(professor.getDisciplina());
                         }
                     }
                     
@@ -218,7 +251,7 @@ public class ProfessorService {
                     }
                     
                     professor.setNome(novoNome);
-                    professor.setDisciplina(novaDisciplina.getNome());
+                    professor.setDisciplinas(novaDisciplina);
                     professor.setValorHora(novoValorHora);
                     salvar();
                     System.out.println("\u2705 Professor atualizado com sucesso!");
