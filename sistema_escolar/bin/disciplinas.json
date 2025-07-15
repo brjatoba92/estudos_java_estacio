@@ -1,0 +1,247 @@
+[
+  {
+    "codigoCadastro": "METR094",
+    "nomeCadastro": "Introdução à Computação",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR095",
+    "nomeCadastro": "Elementos de Cartografia e Astronomia",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR096",
+    "nomeCadastro": "Fundamentos da Meteorologia",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR097",
+    "nomeCadastro": "Instrumentos e Métodos de Observação Meteorológicos",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR098",
+    "nomeCadastro": "Técnicas de Mídia e Investigação Científica",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR099",
+    "nomeCadastro": "Fundamentos de Matemática",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR100",
+    "nomeCadastro": "Matemática 1 para Meteorologia",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR101",
+    "nomeCadastro": "Oceanografia física",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR102",
+    "nomeCadastro": "Fundamentos da Física",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR103",
+    "nomeCadastro": "Estatística 1 para Meteorologia",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR104",
+    "nomeCadastro": "Geometria Analítica",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR105",
+    "nomeCadastro": "Projeto de Extensão 1 - Parte I - ACE1",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR106",
+    "nomeCadastro": "Matemática 2 para Meteorologia",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR107",
+    "nomeCadastro": "Biometeorologia",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR108",
+    "nomeCadastro": "Álgebra linear",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR109",
+    "nomeCadastro": "Física 1 para Meteorologia",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR110",
+    "nomeCadastro": "Estatística 2 para meteorologia",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR111",
+    "nomeCadastro": "Projeto de Extensão 1 - Parte II - ACE2",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR112",
+    "nomeCadastro": "Meteorologia Dinâmica 1",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR113",
+    "nomeCadastro": "Hidrometeorologia",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR114",
+    "nomeCadastro": "Física Experimental 1",
+    "cargaHoraria": 36
+  },
+  {
+    "codigoCadastro": "METR115",
+    "nomeCadastro": "Física 2 para meteorologia",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR116",
+    "nomeCadastro": "Matemática 3 para meteorologia",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR117",
+    "nomeCadastro": "Legislação e direito ambiental",
+    "cargaHoraria": 36
+  },
+  {
+    "codigoCadastro": "METR118",
+    "nomeCadastro": "Projeto de Extensão 2 - Parte I - ACE3",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR119",
+    "nomeCadastro": "Meteorologia Física",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR120",
+    "nomeCadastro": "Meteorologia Dinâmica 2",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR121",
+    "nomeCadastro": "Matemática 4 para Meteorologia",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR122",
+    "nomeCadastro": "Física 3 para Meteorologia",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR123",
+    "nomeCadastro": "Física Experimental 2",
+    "cargaHoraria": 36
+  },
+  {
+    "codigoCadastro": "METR124",
+    "nomeCadastro": "Avaliação de Impactos Ambientais",
+    "cargaHoraria": 36
+  },
+  {
+    "codigoCadastro": "METR125",
+    "nomeCadastro": "Projeto de Extensão 2 - Parte II - ACE4",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR126",
+    "nomeCadastro": "Radiação Solar",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR127",
+    "nomeCadastro": "Meteorologia Ambiental",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR128",
+    "nomeCadastro": "Meteorologia Sinótica 1",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR129",
+    "nomeCadastro": "Física 4 para Meteorologia",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR130",
+    "nomeCadastro": "Física Experimental 3",
+    "cargaHoraria": 36
+  },
+  {
+    "codigoCadastro": "METR131",
+    "nomeCadastro": "Evento ou Curso de Extensão - ACE5",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR132",
+    "nomeCadastro": "Meteorologia Agrícola",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR133",
+    "nomeCadastro": "Meteorologia Sinótica 2",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR134",
+    "nomeCadastro": "Climatologia",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR135",
+    "nomeCadastro": "Física Experimental 4",
+    "cargaHoraria": 36
+  },
+  {
+    "codigoCadastro": "METR136",
+    "nomeCadastro": "Meteorologia Tropical",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR137",
+    "nomeCadastro": "Estágio Supervisionado",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR138",
+    "nomeCadastro": "Meteorologia Operacional",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR139",
+    "nomeCadastro": "Sensoriamento Remoto",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR140",
+    "nomeCadastro": "Modelos de Previsão de Tempo e Clima",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR141",
+    "nomeCadastro": "Micrometeorologia",
+    "cargaHoraria": 72
+  },
+  {
+    "codigoCadastro": "METR142",
+    "nomeCadastro": "Meteorologia por Radar",
+    "cargaHoraria": 72
+  }
+]

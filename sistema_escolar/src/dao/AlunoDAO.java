@@ -76,4 +76,20 @@ public class AlunoDAO {
             System.out.println("Erro ao atualizar aluno: " + e.getMessage());
         }
     }
+
+    public void remover(String matricula) {
+        String sql = "DELETE FROM alunos WHERE matricula = ?";
+        try (Connection conn = Database.conectar();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, matricula);
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("✅ Aluno removido do banco de dados.");
+            } else {
+                System.out.println("⚠️ Aluno não encontrado no banco de dados.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao remover aluno: " + e.getMessage());
+        }
+    }
 }

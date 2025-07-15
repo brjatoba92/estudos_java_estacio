@@ -3,15 +3,110 @@
     "nome": "Gustavo Silva",
     "matricula": "AL0001",
     "dataNascimento": "2015-04-06",
-    "notas": [],
-    "mediaGeral": 0.0,
-    "mediasPorDisciplina": {},
-    "statusAprovacao": "SEM NOTAS"
+    "notas": [
+      {
+        "valor": 8.0,
+        "prova": {
+          "descricao": "AV1",
+          "disciplina": {
+            "codigoCadastro": "METR101",
+            "nomeCadastro": "Oceanografia física",
+            "cargaHoraria": 72
+          },
+          "data": "2025-04-20",
+          "peso": 2.0
+        }
+      },
+      {
+        "valor": 9.0,
+        "prova": {
+          "descricao": "AV1",
+          "disciplina": {
+            "codigoCadastro": "METR094",
+            "nomeCadastro": "Introdução à Computação",
+            "cargaHoraria": 72
+          },
+          "data": "2025-09-10",
+          "peso": 1.0
+        }
+      },
+      {
+        "valor": 7.0,
+        "prova": {
+          "descricao": "AV2",
+          "disciplina": {
+            "codigoCadastro": "METR101",
+            "nomeCadastro": "Oceanografia física",
+            "cargaHoraria": 72
+          },
+          "data": "2025-07-23",
+          "peso": 1.5
+        }
+      }
+    ],
+    "mediaGeral": 7.888888888888889,
+    "mediasPorDisciplina": {
+      "METR094": 9.0,
+      "METR101": 7.571428571428571
+    },
+    "statusAprovacao": "APROVADO"
   },
   {
     "nome": "Gabriela Vilela",
     "matricula": "AL0002",
     "dataNascimento": "2010-09-21",
+    "notas": [
+      {
+        "valor": 8.0,
+        "prova": {
+          "descricao": "AV1",
+          "disciplina": {
+            "codigoCadastro": "METR094",
+            "nomeCadastro": "Introdução à Computação",
+            "cargaHoraria": 72
+          },
+          "data": "2025-07-14",
+          "peso": 1.0
+        }
+      },
+      {
+        "valor": 8.0,
+        "prova": {
+          "descricao": "AV2",
+          "disciplina": {
+            "codigoCadastro": "METR094",
+            "nomeCadastro": "Introdução à Computação",
+            "cargaHoraria": 72
+          },
+          "data": "2025-11-07",
+          "peso": 1.5
+        }
+      },
+      {
+        "valor": 6.0,
+        "prova": {
+          "descricao": "AV1",
+          "disciplina": {
+            "codigoCadastro": "METR102",
+            "nomeCadastro": "Fundamentos da Física",
+            "cargaHoraria": 72
+          },
+          "data": "2025-03-12",
+          "peso": 1.5
+        }
+      }
+    ],
+    "mediaGeral": 7.25,
+    "mediasPorDisciplina": {
+      "METR094": 8.0,
+      "METR102": 6.0
+    },
+    "statusAprovacao": "APROVADO"
+  },
+  {
+    "nome": "Rebeca Vales",
+    "matricula": "AL0040",
+    "dataNascimento": "2012-06-12",
     "notas": [],
     "mediaGeral": 0.0,
     "mediasPorDisciplina": {},

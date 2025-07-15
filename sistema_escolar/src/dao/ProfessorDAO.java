@@ -58,4 +58,39 @@ public class ProfessorDAO {
         }
         return professores;
     }
+
+    public void atualizar(String matricula, String novoNome, String novaDisciplina, double novoValorHora) {
+        String sql = "UPDATE professores SET nome = ?, disciplina = ?, valor_hora = ? WHERE matricula = ?";
+        try (Connection conn = Database.conectar();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, novoNome);
+            pstmt.setString(2, novaDisciplina);
+            pstmt.setDouble(3, novoValorHora);
+            pstmt.setString(4, matricula);
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("✅ Professor atualizado no banco de dados.");
+            } else {
+                System.out.println("⚠️ Professor não encontrado no banco de dados.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao atualizar professor: " + e.getMessage());
+        }
+    }
+
+    public void remover(String matricula) {
+        String sql = "DELETE FROM professores WHERE matricula = ?";
+        try (Connection conn = Database.conectar();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, matricula);
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("✅ Professor removido do banco de dados.");
+            } else {
+                System.out.println("⚠️ Professor não encontrado no banco de dados.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao remover professor: " + e.getMessage());
+        }
+    }
 } 

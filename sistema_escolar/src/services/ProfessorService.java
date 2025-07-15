@@ -49,7 +49,10 @@ public class ProfessorService {
             professor.setDisciplina(novaDisciplina);
             professor.setValorHora(novoValorHora);
             salvar();
-            System.out.println("\u2705 Professor atualizado com sucesso!");
+            // Atualizar no banco de dados
+            ProfessorDAO dao = new ProfessorDAO();
+            dao.atualizar(matricula, novoNome, novaDisciplina, novoValorHora);
+            System.out.println("\u2705 Professor atualizado com sucesso (JSON e SQLite)!");
         } else {
             System.out.println("\u26A0 Professor não encontrado!");
         }
@@ -60,7 +63,10 @@ public class ProfessorService {
         if (professor != null) {
             professores.remove(professor);
             salvar();
-            System.out.println("\u2705 Professor removido com sucesso!");
+            // Remover do banco de dados
+            ProfessorDAO dao = new ProfessorDAO();
+            dao.remover(matricula);
+            System.out.println("\u2705 Professor removido com sucesso (JSON e SQLite)!");
         } else {
             System.out.println("\u26A0 Professor não encontrado!");
         }
@@ -169,29 +175,38 @@ public class ProfessorService {
                     String novoNome = scanner.nextLine();
                     if (novoNome.trim().isEmpty()) novoNome = professor.getNome();
                     
-                    System.out.print("Nova disciplina (ou Enter para manter: " + professor.getDisciplina() + "): ");
                     System.out.println("Disciplinas disponíveis:");
                     DisciplinaService disciplinaService = new DisciplinaService();
                     List<Disciplina> disciplinas = disciplinaService.listarTodas();
-                    for (int i = 0; i < disciplinas.size(); i++) {
-                        System.out.println((i+1) + " - " + disciplinas.get(i));
+                    if (disciplinas.isEmpty()) {
+                        System.out.println("⚠️ Nenhuma disciplina cadastrada. Cadastre uma disciplina primeiro.");
+                        break;
                     }
-                    String novaDisciplinaNome = scanner.nextLine();
+                    
+                    for (int i = 0; i < disciplinas.size(); i++) {
+                        Disciplina d = disciplinas.get(i);
+                        System.out.println((i+1) + " - " + d.getCodigo() + " | " + d.getNome() + " | " + d.getCargaHoraria() + "h");
+                    }
+                    
+                    System.out.print("Escolha o número da nova disciplina (ou 0 para manter: " + professor.getDisciplina() + "): ");
+                    String escolhaDisciplina = scanner.nextLine();
+                    
                     Disciplina novaDisciplina = null;
-                    if (novaDisciplinaNome.trim().isEmpty()) {
+                    if (escolhaDisciplina.trim().isEmpty() || escolhaDisciplina.equals("0")) {
                         // Manter disciplina atual
                         novaDisciplina = new Disciplina("", professor.getDisciplina(), 0);
                     } else {
-                        // Buscar disciplina pelo nome
-                        for (Disciplina d : disciplinas) {
-                            if (d.getNome().equalsIgnoreCase(novaDisciplinaNome)) {
-                                novaDisciplina = d;
-                                break;
+                        try {
+                            int escolha = Integer.parseInt(escolhaDisciplina);
+                            if (escolha > 0 && escolha <= disciplinas.size()) {
+                                novaDisciplina = disciplinas.get(escolha - 1);
+                            } else {
+                                System.out.println("⚠️ Opção inválida, mantendo disciplina atual.");
+                                novaDisciplina = new Disciplina("", professor.getDisciplina(), 0);
                             }
-                        }
-                        if (novaDisciplina == null) {
-                            System.out.println("\u26A0 Disciplina não encontrada!");
-                            break;
+                        } catch (NumberFormatException e) {
+                            System.out.println("⚠️ Opção inválida, mantendo disciplina atual.");
+                            novaDisciplina = new Disciplina("", professor.getDisciplina(), 0);
                         }
                     }
                     
