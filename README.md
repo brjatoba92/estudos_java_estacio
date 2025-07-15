@@ -25,6 +25,8 @@ sistema_escolar/
 │   │   ├── 📄 MainFrame.java        # Janela principal do sistema
 │   │   ├── 📄 AlunoFrame.java       # Interface de gerenciamento de alunos
 │   │   └── 📄 ProfessorFrame.java   # Interface de gerenciamento de professores
+│   │   └── 📄 DisciplinaFrame.java  # Interface de gerenciamento de disciplinas
+│   │   └── 📄 TurmaFrame.java       # Interface de gerenciamento de turmas
 │   ├── 📁 services/                 # Camada de serviços (lógica de negócio)
 │   │   ├── 📄 AlunoService.java     # Serviços para alunos
 │   │   ├── 📄 ProfessorService.java # Serviços para professores
@@ -56,8 +58,10 @@ sistema_escolar/
 │   ├── 📄 DataImporter$*.class     # Classes internas do importador
 │   ├── 📁 gui/                     # Interface gráfica compilada
 │   │   ├── 📄 MainFrame.class
-│   │   ├──  AlunoFrame.class
+│   │   ├── 📄 AlunoFrame.class
+│   │   ├── 📄 DisciplinaFrame.class
 │   │   └── 📄 ProfessorFrame.class
+│   │   └── 📄 TurmaFrame.class
 │   ├── 📁 services/                # Serviços compilados
 │   │   ├──  AlunoService.class
 │   │   ├── 📄 ProfessorService.class
@@ -68,22 +72,23 @@ sistema_escolar/
 │   │   ├──  AlunoDAO.class
 │   │   ├──  ProfessorDAO.class
 │   │   ├──  TurmaDAO.class
-│   │   └── 📄 DisciplinaDAO.class
+│   │   └── DisciplinaDAO.class
 │   ├── 📁 models/                  # Modelos compilados
-│   │   ├── 📄 Aluno.class
-│   │   ├── 📄 Professor.class
-│   │   ├── 📄 Turma.class
-│   │   ├──  Disciplina.class
-│   │   ├──  Escola.class
-│   │   ├──  Nota.class
-│   │   └── 📄 Prova.class
+│   │   ├── Aluno.class
+│   │   ├── Professor.class
+│   │   ├── Turma.class
+│   │   ├── Disciplina.class
+│   │   ├── Escola.class
+│   │   ├── Nota.class
+│   │   └── Prova.class
 │   └── 📁 util/                    # Utilitários compilados
-│       ├── 📄 JsonUtil.class
-│       ├── 📄 Database.class
-│       ├──  DatabaseUtil.class
-│       └── 📄 LocalDateAdapter.class
+│       ├── JsonUtil.class
+│       ├── Database.class
+│       ├── DatabaseUtil.class
+│       └── LocalDateAdapter.class
 ├── 📁 lib/                         # Bibliotecas externas
 │   └── 📄 gson-2.10.1.jar         # Biblioteca Gson para JSON
+    └── 📄 sqlite-jdbc-3.50.2.0.jar         # Biblioteca SQLite
 ├── 📄 compile.sh                   # Script de compilação
 └── 📁 .vscode/                     # Configurações do VS Code
 ```

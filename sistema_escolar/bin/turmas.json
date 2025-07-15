@@ -1,0 +1,20 @@
+[
+  {
+    "codigo": "CALC02_2025",
+    "serie": "SEM02",
+    "matriculaProfessor": "PROF10",
+    "cargaHoraria": 4
+  },
+  {
+    "codigo": "F01_2026",
+    "serie": "SEM03",
+    "matriculaProfessor": "PROF02",
+    "cargaHoraria": 4
+  },
+  {
+    "codigo": "CLIM2027",
+    "serie": "SEM07",
+    "matriculaProfessor": "PROF01",
+    "cargaHoraria": 4
+  }
+]

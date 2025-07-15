@@ -41,7 +41,7 @@ public class AlunoService {
         return alunos;
     }
 
-    private List<Nota> notas = new ArrayList<>();
+
 
     public Aluno buscarPorMatricula(String matricula) {
         for (Aluno aluno : alunos) {
@@ -73,7 +73,10 @@ public class AlunoService {
         if (aluno != null) {
             alunos.remove(aluno);
             salvar();
-            System.out.println("\u2705 Aluno removido com sucesso!");
+            // Remover do banco de dados
+            AlunoDAO dao = new AlunoDAO();
+            dao.remover(matricula);
+            System.out.println("\u2705 Aluno removido com sucesso (JSON e SQLite)!");
         } else {
             System.out.println("\u26A0 Aluno não encontrado!");
         }
@@ -103,8 +106,17 @@ public class AlunoService {
         }
     }
 
-    public void adicionarNota(Nota nota) {
-        notas.add(nota);
+    public void adicionarNota(String matriculaAluno, Nota nota) {
+        Aluno aluno = buscarPorMatricula(matriculaAluno);
+        if (aluno != null) {
+            aluno.adicionarNota(nota);
+            salvar(); // Salvar as mudanças no JSON
+            System.out.println("✅ Nota adicionada ao aluno " + aluno.getNome() + " com sucesso!");
+            System.out.println("Média atualizada: " + String.format("%.2f", aluno.getMediaGeral()) + 
+                             " - Status: " + aluno.getStatusAprovacaoSalvo());
+        } else {
+            System.out.println("❌ Aluno não encontrado!");
+        }
     }
 
     public void menuInterativo() {
@@ -219,11 +231,7 @@ public class AlunoService {
                     double notaValor = scanner.nextDouble();
                     
                     Nota nota = new Nota(notaValor, prova);
-                    aluno.adicionarNota(nota);
-                    salvar();
-                    System.out.println("\u2705 Nota adicionada ao aluno com sucesso!");
-                    System.out.println("Média atualizada: " + String.format("%.2f", aluno.getMediaGeral()) + 
-                                     " - Status: " + aluno.getStatusAprovacaoSalvo());
+                    adicionarNota(matAluno, nota);
                     break;
                 
                 case 7:
