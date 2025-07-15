@@ -1,50 +1,22 @@
 [
   {
-    "nome": "Rodirigo Lins",
-    "disciplina": "Climatologia",
-    "matricula": "PROF01",
-    "valorHora": 0.0
-  },
-  {
     "nome": "Bruno Jatobá",
-    "disciplina": "Física 1 para Meteorologia",
+    "disciplinas": [
+      "Fundamentos da Meteorologia"
+    ],
+    "matricula": "PROF01",
+    "valorHora": 50.0,
+    "totalTurmas": 2,
+    "valorTotal": 100.0
+  },
+  {
+    "nome": "ROdtigo LIns",
+    "disciplinas": [
+      "Instrumentos e Métodos de Observação Meteorológicos"
+    ],
     "matricula": "PROF02",
-    "valorHora": 50.0
-  },
-  {
-    "nome": "Marcelo Lopes",
-    "disciplina": "Introdução à Computação",
-    "matricula": "PROF03",
-    "valorHora": 50.0
-  },
-  {
-    "nome": "Ismael Gidson",
-    "disciplina": "Fundamentos da Meteorologia",
-    "matricula": "PROF04",
-    "valorHora": 50.0
-  },
-  {
-    "nome": "Helber Lopes",
-    "disciplina": "Elementos de Cartografia e Astronomia",
-    "matricula": "PROF05",
-    "valorHora": 50.0
-  },
-  {
-    "nome": "Hugo Fernades",
-    "disciplina": "Matemática 1 para Meteorologia",
-    "matricula": "PROF10",
-    "valorHora": 50.0
-  },
-  {
-    "nome": "Dario Mesquita",
-    "disciplina": "Física 2 para meteorologia",
-    "matricula": "PROF20",
-    "valorHora": 50.0
-  },
-  {
-    "nome": "PROF32",
-    "disciplina": "Álgebra linear",
-    "matricula": "Rosiberto Pires",
-    "valorHora": 60.0
+    "valorHora": 50.0,
+    "totalTurmas": 1,
+    "valorTotal": 50.0
   }
 ]

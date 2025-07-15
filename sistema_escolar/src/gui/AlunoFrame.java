@@ -12,6 +12,7 @@ import models.Nota;
 import models.Disciplina;
 import models.Prova;
 import java.util.List;
+import dao.AlunoDAO;
 
 public class AlunoFrame extends JFrame {
     private AlunoService alunoService = new AlunoService();
@@ -282,20 +283,63 @@ public class AlunoFrame extends JFrame {
     }
 
     private void calcularMedias() {
-        JOptionPane.showMessageDialog(this, 
-            "Funcionalidade de cálculo de médias será implementada em breve.", 
-            "Em Desenvolvimento", JOptionPane.INFORMATION_MESSAGE);
+        List<Aluno> alunos = alunoService.listarTodos();
+        if (alunos.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nenhum aluno cadastrado.",
+                                        "Cálculo de Médias", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Matrícula | Nome | Média Geral | Status\n");
+        sb.append("-".repeat(60)).append("\n");
+        for (Aluno a : alunos) {
+            double media = a.calcularMedia();
+            String status = a.calcularStatusAprovacao();
+            sb.append(String.format("%s | %s | %.2f | %s\n",
+                a.getMatricula(), a.getNome(), media, status));
+        }
+
+        JTextArea textArea = new JTextArea(sb.toString());
+        textArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(600, 400));
+        JOptionPane.showMessageDialog(this, scrollPane, "Relatório de Médias", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void atualizarMedias() {
-        JOptionPane.showMessageDialog(this, 
-            "Funcionalidade de atualização de médias será implementada em breve.", 
-            "Em Desenvolvimento", JOptionPane.INFORMATION_MESSAGE);
+        List<Aluno> alunos = alunoService.listarTodos();
+        if (alunos.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nenhum aluno cadastrado.",
+                                        "Atualizar Médias", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        for (Aluno a : alunos) {
+            a.atualizarMedias();
+        }
+        alunoService.salvar();
+        JOptionPane.showMessageDialog(this, "✅ Médias e status de aprovação atualizados e salvos!", "Atualizar Médias", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void listarDoBanco() {
-        JOptionPane.showMessageDialog(this, 
-            "Funcionalidade de listagem do banco será implementada em breve.", 
-            "Em Desenvolvimento", JOptionPane.INFORMATION_MESSAGE);
+        dao.AlunoDAO alunoDAO = new dao.AlunoDAO();
+        java.util.List<models.Aluno> alunosBanco = alunoDAO.listarTodos();
+        if (alunosBanco.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nenhum aluno cadastrado no banco de dados.",
+                                        "Lista de Alunos (Banco)", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("Matrícula | Nome | Data Nascimento\n");
+        sb.append("-".repeat(60)).append("\n");
+        for (models.Aluno a : alunosBanco) {
+            sb.append(String.format("%s | %s | %s\n",
+                a.getMatricula(), a.getNome(), a.getDataNascimento()));
+        }
+        JTextArea textArea = new JTextArea(sb.toString());
+        textArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(600, 400));
+        JOptionPane.showMessageDialog(this, scrollPane, "Lista de Alunos (Banco)", JOptionPane.INFORMATION_MESSAGE);
     }
 }

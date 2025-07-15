@@ -38,6 +38,42 @@ public class TurmaDAO {
         }
     }
 
+    public void atualizar(String codigoAntigo, String novoCodigo, String novaSerie, String matriculaProfessor, int novaCargaHoraria) {
+        String sql = "UPDATE turmas SET codigo = ?, serie = ?, matricula_professor = ?, carga_horaria = ? WHERE codigo = ?";
+        try (Connection conn = Database.conectar();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, novoCodigo);
+            pstmt.setString(2, novaSerie);
+            pstmt.setString(3, matriculaProfessor);
+            pstmt.setInt(4, novaCargaHoraria);
+            pstmt.setString(5, codigoAntigo);
+            int rows = pstmt.executeUpdate();
+            if (rows > 0) {
+                System.out.println("✅ Turma atualizada no banco de dados.");
+            } else {
+                System.out.println("⚠️ Turma não encontrada no banco de dados.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao atualizar turma: " + e.getMessage());
+        }
+    }
+
+    public void remover(String codigo) {
+        String sql = "DELETE FROM turmas WHERE codigo = ?";
+        try (Connection conn = Database.conectar();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, codigo);
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("✅ Turma removida do banco de dados.");
+            } else {
+                System.out.println("⚠️ Turma não encontrada no banco de dados.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao remover turma: " + e.getMessage());
+        }
+    }
+
     public List<Turma> listarTodos() {
         List<Turma> turmas = new ArrayList<>();
         String sql = "SELECT * FROM turmas";

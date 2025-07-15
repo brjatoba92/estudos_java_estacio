@@ -6,14 +6,17 @@ import util.Database;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 public class ProfessorDAO {
     public void criarTabela() {
         String sql = "CREATE TABLE IF NOT EXISTS professores ("
            + "matricula TEXT PRIMARY KEY,"
            + "nome TEXT NOT NULL,"
-           + "disciplina TEXT,"
-           + "valor_hora REAL DEFAULT 0.0"
+           + "disciplinas TEXT,"
+           + "valor_hora REAL DEFAULT 0.0,"
+           + "total_turmas INTEGER DEFAULT 0,"
+           + "valor_total REAL DEFAULT 0.0"
            + ");";
         try (Connection conn = Database.conectar();
              Statement stmt = conn.createStatement()) {
@@ -24,13 +27,15 @@ public class ProfessorDAO {
     }
 
     public void inserir(Professor professor) {
-        String sql = "INSERT INTO professores (matricula, nome, disciplina, valor_hora) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO professores (matricula, nome, disciplinas, valor_hora, total_turmas, valor_total) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = Database.conectar();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, professor.getMatricula());
             pstmt.setString(2, professor.getNome());
-            pstmt.setString(3, professor.getDisciplina());
+            pstmt.setString(3, String.join(",", professor.getDisciplinas()));
             pstmt.setDouble(4, professor.getValorHora());
+            pstmt.setInt(5, professor.getTotalTurmas());
+            pstmt.setDouble(6, professor.getValorTotal());
             pstmt.executeUpdate();
             System.out.println("✅ Professor salvo no banco de dados.");
         } catch (SQLException e) {
@@ -45,12 +50,16 @@ public class ProfessorDAO {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
+                String disciplinasStr = rs.getString("disciplinas");
+                List<String> disciplinas = disciplinasStr != null && !disciplinasStr.isEmpty() ? Arrays.asList(disciplinasStr.split(",")) : new ArrayList<>();
                 Professor p = new Professor(
                     rs.getString("nome"),
                     rs.getString("matricula"),
-                    rs.getString("disciplina"),
+                    disciplinas,
                     rs.getDouble("valor_hora")
                 );
+                p.setTotalTurmas(rs.getInt("total_turmas"));
+                p.setValorTotal(rs.getDouble("valor_total"));
                 professores.add(p);
             }
         } catch (SQLException e) {
@@ -59,14 +68,16 @@ public class ProfessorDAO {
         return professores;
     }
 
-    public void atualizar(String matricula, String novoNome, String novaDisciplina, double novoValorHora) {
-        String sql = "UPDATE professores SET nome = ?, disciplina = ?, valor_hora = ? WHERE matricula = ?";
+    public void atualizar(String matricula, String novoNome, List<String> novasDisciplinas, double novoValorHora, int novoTotalTurmas, double novoValorTotal) {
+        String sql = "UPDATE professores SET nome = ?, disciplinas = ?, valor_hora = ?, total_turmas = ?, valor_total = ? WHERE matricula = ?";
         try (Connection conn = Database.conectar();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, novoNome);
-            pstmt.setString(2, novaDisciplina);
+            pstmt.setString(2, String.join(",", novasDisciplinas));
             pstmt.setDouble(3, novoValorHora);
-            pstmt.setString(4, matricula);
+            pstmt.setInt(4, novoTotalTurmas);
+            pstmt.setDouble(5, novoValorTotal);
+            pstmt.setString(6, matricula);
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("✅ Professor atualizado no banco de dados.");
